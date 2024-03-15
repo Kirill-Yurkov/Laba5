@@ -1,15 +1,23 @@
 package server.commands;
 
-import server.patternclass.Ticket;
+import server.Server;
+import server.commands.interfaces.Command;
+import server.commons.TicketCreator;
 
-import java.util.List;
-
-public class Add extends Command{
-
-    public void exec(List<Ticket> ticketList, Ticket ticket){
-        ticketList.add(ticket);
+public class Add implements Command {
+    @Override
+    public String execute(){
+        Server.add(TicketCreator.createTicketGroup());
+        return "Successfully created";
     }
 
+    @Override
+    public String getName() {
+        return "add";
+    }
 
-
+    @Override
+    public String description() {
+        return "добавить новый элемент в коллекцию";
+    }
 }

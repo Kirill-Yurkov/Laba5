@@ -17,4 +17,19 @@ public class Coordinates {
         return y;
     }
 
+    public void setX(Long x) {
+        this.x = x;
+    }
+
+    public void setY(Long y) {
+        this.y = y;
+    }
+
+    @Override
+    public String toString() {
+        return "Coordinates{" +
+                "x=" + x +
+                ", y=" + y +
+                '}';
+    }
 }

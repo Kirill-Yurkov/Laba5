@@ -1,46 +1,35 @@
 package org.example;
 
-import org.w3c.dom.DOMException;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.xml.sax.SAXException;
-import server.commands.Command;
-import server.managers.FileManager;
-import server.patternclass.Coordinates;
-import server.patternclass.Event;
-import server.patternclass.Ticket;
-import server.patternclass.TicketType;
+import server.Server;
+import server.commands.interfaces.Command;
+import server.commons.ReflectionImplements;
+import server.managers.CommandInvoker;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.TransformerFactoryConfigurationError;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-import java.io.*;
-import java.util.*;
+import java.io.IOException;
+import java.util.List;
+import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
-        Console console = System.console();
+    private final static Scanner src = new Scanner(System.in);
+
+    public static void main(String[] args) throws IOException, InstantiationException, IllegalAccessException {
+
+        CommandInvoker invoker = new CommandInvoker();
+        List<Class<?>> implementations = ReflectionImplements.getImplementations(Command.class);
 
 
-        String filePath = "C:\\Users\\Ender\\IdeaProjects\\Laba5\\src\\main\\resources\\Collection.xml";
-        // Запись данных в XML файл
+        for (Class<?> implementation : implementations) {
+            invoker.registerCommand((Command) implementation.newInstance());
+        }
 
-        List<Ticket> ticketList = new ArrayList<>();
-        ticketList.add(new Ticket(2,"Sergey", new Coordinates((long) 421, (long) 194), new Date(), 1000, TicketType.VIP, new Event(2, "CINEMA", 18L, 50, "MARVEL")));
-        ticketList.add(new Ticket(2,"Sergey", new Coordinates((long) 421, (long) 194), new Date(), 1000, TicketType.VIP, new Event(2, "CINEMA", 18L, 50, "MARVEL")));
-        ticketList.add(new Ticket(2,"Sergey", new Coordinates((long) 421, (long) 194), new Date(), 1000, TicketType.VIP, new Event(2, "CINEMA", 18L, 50, "MARVEL")));
-        FileManager.writeXML(filePath, ticketList);
 
-        // Чтение данных из XML файл
-        ticketList.clear();
-        System.out.println(FileManager.readXML(filePath));
-
+        String filePath = "src/main/resources/Collection.xml";
+        Server.setFilePath(filePath);
+        while (true) {
+            System.out.println("Введите комманду (для справки используйте комманду help)");
+            System.out.print("~ ");
+            String commandFromConsole = src.nextLine();
+            System.out.println(invoker.invoke(commandFromConsole));
+        }
     }
 }

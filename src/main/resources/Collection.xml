@@ -1,45 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <TicketsBook>
     <Ticket>
-        <TicketId>2</TicketId>
-        <TicketName>Sergey</TicketName>
-        <CoordinateX>421</CoordinateX>
-        <CoordinateY>194</CoordinateY>
-        <TicketCreationDate>Fri Mar 15 00:03:34 MSK 2024</TicketCreationDate>
-        <TicketPrice>1000</TicketPrice>
+        <TicketId>1</TicketId>
+        <TicketName>Kirill</TicketName>
+        <CoordinateX>123</CoordinateX>
+        <CoordinateY>123</CoordinateY>
+        <TicketCreationDate>Fri Mar 15 23:39:01 MSK 2024</TicketCreationDate>
+        <TicketPrice>1</TicketPrice>
         <TicketType>VIP</TicketType>
-        <EventId>2</EventId>
-        <EventName>CINEMA</EventName>
-        <EventMinAge>18</EventMinAge>
-        <EventTicketsCount>18</EventTicketsCount>
-        <EventDescription>MARVEL</EventDescription>
-    </Ticket>
-    <Ticket>
-        <TicketId>2</TicketId>
-        <TicketName>Sergey</TicketName>
-        <CoordinateX>421</CoordinateX>
-        <CoordinateY>194</CoordinateY>
-        <TicketCreationDate>Fri Mar 15 00:03:34 MSK 2024</TicketCreationDate>
-        <TicketPrice>1000</TicketPrice>
-        <TicketType>VIP</TicketType>
-        <EventId>2</EventId>
-        <EventName>CINEMA</EventName>
-        <EventMinAge>18</EventMinAge>
-        <EventTicketsCount>18</EventTicketsCount>
-        <EventDescription>MARVEL</EventDescription>
-    </Ticket>
-    <Ticket>
-        <TicketId>2</TicketId>
-        <TicketName>Sergey</TicketName>
-        <CoordinateX>421</CoordinateX>
-        <CoordinateY>194</CoordinateY>
-        <TicketCreationDate>Fri Mar 15 00:03:34 MSK 2024</TicketCreationDate>
-        <TicketPrice>1000</TicketPrice>
-        <TicketType>VIP</TicketType>
-        <EventId>2</EventId>
-        <EventName>CINEMA</EventName>
-        <EventMinAge>18</EventMinAge>
-        <EventTicketsCount>18</EventTicketsCount>
-        <EventDescription>MARVEL</EventDescription>
+        <EventId>321</EventId>
+        <EventName>fsafsaf</EventName>
+        <EventMinAge>10</EventMinAge>
+        <EventTicketsCount>10</EventTicketsCount>
+        <EventDescription>fasfasf</EventDescription>
     </Ticket>
 </TicketsBook>

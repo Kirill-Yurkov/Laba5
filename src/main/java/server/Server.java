@@ -1,32 +1,30 @@
 package server;
 
-import server.commands.Add;
-import server.commands.Command;
+import lombok.Getter;
+import lombok.Setter;
+import server.managers.FileManager;
 import server.patternclass.Ticket;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class Server {
-    private HashMap<String, Command> commandHashMap = new HashMap<>();
-    private List<Ticket> ticketList = new ArrayList<>();
+    @Getter
+    private static String filePath;
+    @Getter
+    @Setter
+    private static List<Ticket> ticketList = new ArrayList<>();
 
-    {
-     commandHashMap.put("add",new Add());
-    }
-    public void setTicketList(List<Ticket> ticketList) {
-        this.ticketList = ticketList;
-    }
-
-    public List<Ticket> getTicketList() {
-        return ticketList;
-    }
-    public void perform(String cmd){
-        if(commandHashMap.containsKey(cmd)){
-            Command command = commandHashMap.get(cmd);
-
-        }
+    public static void add(Ticket ticket) {
+        ticketList.add(ticket);
     }
 
+    public static void remove(Ticket ticket) {
+        ticketList.remove(ticket);
+    }
+
+    public static void setFilePath(String filePath) {
+        Server.filePath = filePath;
+        ticketList = FileManager.readXML(filePath);
+    }
 }

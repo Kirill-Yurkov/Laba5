@@ -8,7 +8,6 @@ import server.patternclass.Coordinates;
 import server.patternclass.Event;
 import server.patternclass.Ticket;
 import server.patternclass.TicketType;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.OutputKeys;
@@ -23,11 +22,7 @@ import javax.xml.xpath.XPathFactory;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.OutputStream;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class FileManager {
@@ -37,7 +32,6 @@ public class FileManager {
 
             // Получаем объект Document из файла
             Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new File(filePath));
-
             // Получаем корневой элемент
             Element root = document.getDocumentElement();
 
@@ -177,7 +171,6 @@ public class FileManager {
     private static void cleanup(Document document) throws XPathExpressionException {
         XPath xp = XPathFactory.newInstance().newXPath();
         NodeList nl = (NodeList) xp.evaluate("//text()[normalize-space(.)='']", document, XPathConstants.NODESET);
-
         for (int i=0; i < nl.getLength(); ++i) {
             Node node = nl.item(i);
             node.getParentNode().removeChild(node);

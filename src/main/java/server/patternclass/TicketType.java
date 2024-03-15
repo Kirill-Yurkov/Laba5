@@ -1,15 +1,15 @@
 package server.patternclass;
 
+import lombok.Getter;
+
+@Getter
 public enum TicketType {
     VIP(0),
     USUAL(1),
     CHEAP(2);
-    private int priority;
+    private final int priority;
     TicketType(int priority){
         this.priority = priority;
     }
 
-    public int getPriority() {
-        return priority;
-    }
 }
