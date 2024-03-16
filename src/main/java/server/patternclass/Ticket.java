@@ -2,6 +2,7 @@ package server.patternclass;
 
 import lombok.Getter;
 import lombok.Setter;
+import server.Server;
 
 import java.util.Date;
 
@@ -15,6 +16,7 @@ public class Ticket implements Comparable<Ticket> {
     private Integer price; //Поле может быть null, Значение поля должно быть больше 0
     private TicketType type; //Поле не может быть null
     private Event event; //Поле может быть null
+
     public Ticket() {
 
     }
@@ -22,8 +24,7 @@ public class Ticket implements Comparable<Ticket> {
 
 
 
-    public Ticket(long id, String name, Coordinates coordinates, Date creationDate, Integer price, TicketType type, Event event) {
-        this.id = id;
+    public Ticket( String name, Coordinates coordinates, Date creationDate, Integer price, TicketType type, Event event) {
         this.name = name;
         this.coordinates = coordinates;
         this.creationDate = creationDate;

@@ -2,16 +2,38 @@
 <TicketsBook>
     <Ticket>
         <TicketId>1</TicketId>
-        <TicketName>Kirill</TicketName>
-        <CoordinateX>123</CoordinateX>
-        <CoordinateY>123</CoordinateY>
-        <TicketCreationDate>Fri Mar 15 23:39:01 MSK 2024</TicketCreationDate>
-        <TicketPrice>1</TicketPrice>
+        <TicketName>JIKl</TicketName>
+        <CoordinateX>10</CoordinateX>
+        <CoordinateY>101</CoordinateY>
+        <TicketCreationDate>Mon Mar 16 16:15:56 MSK 1970</TicketCreationDate>
+        <TicketPrice>10</TicketPrice>
         <TicketType>VIP</TicketType>
-        <EventId>321</EventId>
-        <EventName>fsafsaf</EventName>
-        <EventMinAge>10</EventMinAge>
-        <EventTicketsCount>10</EventTicketsCount>
-        <EventDescription>fasfasf</EventDescription>
+    </Ticket>
+    <Ticket>
+        <TicketId>3</TicketId>
+        <TicketName>KLPOAS</TicketName>
+        <CoordinateX>30</CoordinateX>
+        <CoordinateY>30</CoordinateY>
+        <TicketCreationDate>Mon Mar 16 16:16:37 MSK 1970</TicketCreationDate>
+        <TicketPrice>30</TicketPrice>
+        <TicketType>VIP</TicketType>
+    </Ticket>
+    <Ticket>
+        <TicketId>4</TicketId>
+        <TicketName>JOHN</TicketName>
+        <CoordinateX>5</CoordinateX>
+        <CoordinateY>5</CoordinateY>
+        <TicketCreationDate>Mon Mar 16 16:49:53 MSK 1970</TicketCreationDate>
+        <TicketPrice>5</TicketPrice>
+        <TicketType>VIP</TicketType>
+    </Ticket>
+    <Ticket>
+        <TicketId>2</TicketId>
+        <TicketName>LOUIS</TicketName>
+        <CoordinateX>2</CoordinateX>
+        <CoordinateY>2</CoordinateY>
+        <TicketCreationDate>Sat Mar 16 16:51:02 MSK 2024</TicketCreationDate>
+        <TicketPrice>2</TicketPrice>
+        <TicketType>VIP</TicketType>
     </Ticket>
 </TicketsBook>

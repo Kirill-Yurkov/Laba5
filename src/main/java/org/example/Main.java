@@ -4,6 +4,7 @@ import server.Server;
 import server.commands.interfaces.Command;
 import server.commons.ReflectionImplements;
 import server.managers.CommandInvoker;
+import server.managers.ListManager;
 
 import java.io.IOException;
 import java.util.List;
@@ -29,7 +30,7 @@ public class Main {
             System.out.println("Введите комманду (для справки используйте комманду help)");
             System.out.print("~ ");
             String commandFromConsole = src.nextLine();
-            System.out.println(invoker.invoke(commandFromConsole));
+            System.out.println(invoker.invoke(commandFromConsole)+"\n");
         }
     }
 }
