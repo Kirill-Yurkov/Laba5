@@ -2,19 +2,23 @@ package server.commands;
 
 import server.Server;
 import server.commands.interfaces.Command;
-import server.managers.ListManager;
 import server.patternclass.Ticket;
 
-import java.util.ArrayList;
-
 public class Show implements Command {
+    private Server server;
+
+    @Override
+    public void setServer(Server server) {
+        this.server = server;
+    }
+
     @Override
     public String execute() {
         StringBuilder s = new StringBuilder();
-        for(Ticket ticket: ListManager.getTicketList()){
-            s.append(ticket.toString()).append("\n");
+        for (Ticket ticket : server.getListManager().getTicketList()) {
+            s.append("\n").append(ticket.toString());
         }
-        return s + "successfully";
+        return String.valueOf(s);
     }
 
     @Override

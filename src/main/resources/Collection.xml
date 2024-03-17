@@ -1,84 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <TicketsBook>
-    <Ticket>
-        <TicketId>1</TicketId>
-        <TicketName>JIKl</TicketName>
-        <CoordinateX>10</CoordinateX>
-        <CoordinateY>101</CoordinateY>
-        <TicketCreationDate>Mon Mar 16 16:15:56 MSK 1970</TicketCreationDate>
-        <TicketPrice>null</TicketPrice>
-        <TicketType>VIP</TicketType>
-    </Ticket>
-    <Ticket>
-        <TicketId>3</TicketId>
-        <TicketName>KLPOAS</TicketName>
-        <CoordinateX>30</CoordinateX>
-        <CoordinateY>30</CoordinateY>
-        <TicketCreationDate>Mon Mar 16 16:16:37 MSK 1970</TicketCreationDate>
-        <TicketPrice>30</TicketPrice>
-        <TicketType>VIP</TicketType>
-    </Ticket>
-    <Ticket>
-        <TicketId>4</TicketId>
-        <TicketName>JOHN</TicketName>
-        <CoordinateX>5</CoordinateX>
-        <CoordinateY>5</CoordinateY>
-        <TicketCreationDate>Mon Mar 16 16:49:53 MSK 1970</TicketCreationDate>
-        <TicketPrice>5</TicketPrice>
-        <TicketType>VIP</TicketType>
-    </Ticket>
-    <Ticket>
-        <TicketId>2</TicketId>
-        <TicketName>FASFAS</TicketName>
-        <CoordinateX>15</CoordinateX>
-        <CoordinateY>151</CoordinateY>
-        <TicketCreationDate>Tue Mar 17 11:53:52 MSK 1970</TicketCreationDate>
-        <TicketPrice>15</TicketPrice>
-        <TicketType>VIP</TicketType>
-    </Ticket>
-    <Ticket>
-        <TicketId>5</TicketId>
-        <TicketName>A:LSDASF</TicketName>
-        <CoordinateX>1</CoordinateX>
-        <CoordinateY>1</CoordinateY>
-        <TicketCreationDate>Tue Mar 17 11:54:05 MSK 1970</TicketCreationDate>
-        <TicketPrice>1</TicketPrice>
-        <TicketType>VIP</TicketType>
-    </Ticket>
-    <Ticket>
-        <TicketId>6</TicketId>
-        <TicketName>PLKJ</TicketName>
-        <CoordinateX>5</CoordinateX>
-        <CoordinateY>5</CoordinateY>
-        <TicketCreationDate>Tue Mar 17 13:01:13 MSK 1970</TicketCreationDate>
-        <TicketPrice>5</TicketPrice>
-        <TicketType>VIP</TicketType>
-        <EventId>1</EventId>
-        <EventName>FIRST</EventName>
-        <EventMinAge>19</EventMinAge>
-        <EventTicketsCount>19</EventTicketsCount>
-        <EventDescription/>
-    </Ticket>
-    <Ticket>
-        <TicketId>8</TicketId>
-        <TicketName>FASFAS</TicketName>
-        <CoordinateX>10</CoordinateX>
-        <CoordinateY>10</CoordinateY>
-        <TicketCreationDate>Tue Mar 17 13:15:23 MSK 1970</TicketCreationDate>
-        <TicketPrice>10</TicketPrice>
-        <TicketType>CHEAP</TicketType>
-        <EventId>3</EventId>
-        <EventName>FSAFS</EventName>
-        <EventMinAge>null</EventMinAge>
-        <EventTicketsCount>5</EventTicketsCount>
-        <EventDescription/>
-    </Ticket>
+    <Collection>
+        <CollectionType>CSV</CollectionType>
+        <CollectionCreationDate>Mon Mar 18 00:50:42 MSK 2024</CollectionCreationDate>
+        <CollectionCount>10</CollectionCount>
+        <CollectionXmlVersion>1.0</CollectionXmlVersion>
+        <CollectionXmlEncoding>UTF-8</CollectionXmlEncoding>
+    </Collection>
     <Ticket>
         <TicketId>7</TicketId>
         <TicketName>GHJKFLSA</TicketName>
         <CoordinateX>10</CoordinateX>
         <CoordinateY>10</CoordinateY>
-        <TicketCreationDate>Tue Mar 17 13:23:35 MSK 1970</TicketCreationDate>
+        <TicketCreationDate>Sun Mar 17 13:23:35 MSK 2024</TicketCreationDate>
         <TicketPrice>10</TicketPrice>
         <TicketType>CHEAP</TicketType>
         <EventId>2</EventId>
@@ -87,4 +21,42 @@
         <EventTicketsCount>5</EventTicketsCount>
         <EventDescription>afs</EventDescription>
     </Ticket>
+    <Ticket>
+        <TicketId>9</TicketId>
+        <TicketName>OAKGSgA</TicketName>
+        <CoordinateX>100</CoordinateX>
+        <CoordinateY>100</CoordinateY>
+        <TicketCreationDate>Sun Mar 17 15:48:21 MSK 2024</TicketCreationDate>
+        <TicketPrice>10</TicketPrice>
+        <TicketType>CHEAP</TicketType>
+        <EventId>4</EventId>
+        <EventName>FAFSF</EventName>
+        <EventMinAge>10</EventMinAge>
+        <EventTicketsCount>10</EventTicketsCount>
+        <EventDescription>FASFASF</EventDescription>
+    </Ticket>
+    <Ticket>
+        <TicketId>3</TicketId>
+        <TicketName>KLPOAS</TicketName>
+        <CoordinateX>30</CoordinateX>
+        <CoordinateY>30</CoordinateY>
+        <TicketCreationDate>Sat Mar 16 16:16:37 MSK 2024</TicketCreationDate>
+        <TicketPrice>30</TicketPrice>
+        <TicketType>VIP</TicketType>
+    </Ticket>
+    <Ticket>
+        <TicketId>8</TicketId>
+        <TicketName>FASFAS</TicketName>
+        <CoordinateX>10</CoordinateX>
+        <CoordinateY>10</CoordinateY>
+        <TicketCreationDate>Sun Mar 17 13:15:23 MSK 2024</TicketCreationDate>
+        <TicketPrice>10</TicketPrice>
+        <TicketType>CHEAP</TicketType>
+        <EventId>3</EventId>
+        <EventName>FSAFS</EventName>
+        <EventMinAge>null</EventMinAge>
+        <EventTicketsCount>5</EventTicketsCount>
+        <EventDescription/>
+    </Ticket>
+
 </TicketsBook>

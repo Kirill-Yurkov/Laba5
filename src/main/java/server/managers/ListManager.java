@@ -1,30 +1,37 @@
 package server.managers;
 
 import lombok.Getter;
-import server.utilities.IdCounter;
+import server.Server;
 import server.patternclass.Ticket;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
 public class ListManager {
-    @Getter
-    private static List<Ticket> ticketList = new ArrayList<>();
+    private List<Ticket> ticketList = new ArrayList<>();
+    private Server server;
 
-    public static void setTicketList(List<Ticket> ticketList) {
-        ListManager.ticketList = ticketList;
-        IdCounter.initializeIdTickets();
+    public ListManager(Server server) {
+        this.server = server;
     }
 
-    public static void add(Ticket ticket) {
+    public void setTicketList(List<Ticket> tickets) {
+        ticketList = tickets;
+        server.getIdCounter().initializeIdTickets();
+    }
+
+    public void add(Ticket ticket) {
         ticketList.add(ticket);
     }
 
-    public static void remove(Ticket ticket) {
+    public void remove(Ticket ticket) {
         ticketList.remove(ticket);
+        server.getIdCounter().delTicketByID(ticket.getId());
     }
-    public static void readTicketList(String filePath){
-        ticketList = FileManager.ReaderWriter.readXML(filePath);
-        IdCounter.initializeIdTickets();
+
+    public void readTicketList() {
+        ticketList = server.getReaderWriter().getCollectionTicket();
+        server.getIdCounter().initializeIdTickets();
     }
 }

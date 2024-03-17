@@ -8,7 +8,8 @@ public enum TicketType {
     USUAL(1),
     CHEAP(2);
     private final int priority;
-    TicketType(int priority){
+
+    TicketType(int priority) {
         this.priority = priority;
     }
 

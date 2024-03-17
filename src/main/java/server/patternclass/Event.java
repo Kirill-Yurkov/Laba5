@@ -2,7 +2,6 @@ package server.patternclass;
 
 import lombok.Getter;
 import lombok.Setter;
-import server.Server;
 
 @Setter
 @Getter
@@ -12,6 +11,7 @@ public class Event {
     private Long minAge; //Поле может быть null
     private int ticketsCount; //Значение поля должно быть больше 0
     private String description; //Строка не может быть пустой, Поле может быть null
+
     public Event(String name, Long minAge, int ticketsCount, String description) {
         this.name = name;
         this.minAge = minAge;

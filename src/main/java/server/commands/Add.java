@@ -1,13 +1,23 @@
 package server.commands;
 
+import lombok.Getter;
+import lombok.Setter;
+import server.Server;
 import server.commands.interfaces.Command;
 import server.utilities.TicketCreator;
 import server.managers.ListManager;
 
 public class Add implements Command {
+    private Server server;
+
+    @Override
+    public void setServer(Server server) {
+        this.server = server;
+    }
+
     @Override
     public String execute(){
-        ListManager.add(TicketCreator.createTicketGroup());
+        server.getListManager().add(server.getTicketCreator().createTicketGroup());
         return "Successfully created";
     }
 
