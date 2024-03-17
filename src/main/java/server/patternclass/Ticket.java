@@ -2,7 +2,6 @@ package server.patternclass;
 
 import lombok.Getter;
 import lombok.Setter;
-import server.Server;
 
 import java.util.Date;
 
@@ -21,10 +20,11 @@ public class Ticket implements Comparable<Ticket> {
 
     }
 
+    public Event getEvent() throws NullPointerException {
+        return event;
+    }
 
-
-
-    public Ticket( String name, Coordinates coordinates, Date creationDate, Integer price, TicketType type, Event event) {
+    public Ticket(String name, Coordinates coordinates, Date creationDate, Integer price, TicketType type, Event event) {
         this.name = name;
         this.coordinates = coordinates;
         this.creationDate = creationDate;

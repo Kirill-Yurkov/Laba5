@@ -20,7 +20,7 @@ public class Help implements Command {
                 "remove_lower {element} : удалить из коллекции все элементы, меньшие, чем заданный\n" +
                 "average_of_price : вывести среднее значение поля price для всех элементов коллекции\n" +
                 "count_greater_than_event event : вывести количество элементов, значение поля event которых больше заданного\n" +
-                "filter_less_than_type type : вывести элементы, значение поля type которых меньше заданного\n";
+                "filter_less_than_type type : вывести элементы, значение поля type которых меньше заданного";
     }
 
     @Override

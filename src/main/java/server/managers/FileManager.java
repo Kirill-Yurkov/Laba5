@@ -4,11 +4,11 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import server.commons.IdCounter;
 import server.patternclass.Coordinates;
 import server.patternclass.Event;
 import server.patternclass.Ticket;
 import server.patternclass.TicketType;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.OutputKeys;
@@ -24,10 +24,13 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 public class FileManager {
-    public static class ReaderWriter{
+    public static class ReaderWriter {
         public static List<Ticket> readXML(String filePath) {
             List<Ticket> tickets = new ArrayList<>();
             try {
@@ -52,35 +55,48 @@ public class FileManager {
                         String date1 = ticketElement.getElementsByTagName("TicketCreationDate").item(0).getTextContent();
                         SimpleDateFormat formatter = new SimpleDateFormat("EEE LLL d k:m:s z u", Locale.ENGLISH);
                         Date date = formatter.parse(date1);
-                        int ticketPrice = Integer.parseInt(ticketElement.getElementsByTagName("TicketPrice").item(0).getTextContent());
+                        Integer ticketPrice;
+                        if (ticketElement.getElementsByTagName("TicketPrice").item(0).getTextContent().equals("null")) {
+                            ticketPrice = null;
+                        } else {
+                            ticketPrice = Integer.parseInt(ticketElement.getElementsByTagName("TicketPrice").item(0).getTextContent());
+                        }
                         TicketType ticketType = TicketType.valueOf(ticketElement.getElementsByTagName("TicketType").item(0).getTextContent());
-                        //int eventId = Integer.parseInt(ticketElement.getElementsByTagName("EventId").item(0).getTextContent());
                         try {
+                            Integer eventId = Integer.parseInt(ticketElement.getElementsByTagName("EventId").item(0).getTextContent());
                             String eventName = ticketElement.getElementsByTagName("EventName").item(0).getTextContent();
-                            long eventMinAge = Long.parseLong(ticketElement.getElementsByTagName("EventMinAge").item(0).getTextContent());
+                            Long eventMinAge;
+                            if (ticketElement.getElementsByTagName("EventMinAge").item(0).getTextContent().equals("null")) {
+                                eventMinAge = null;
+                            } else {
+                                eventMinAge = Long.parseLong(ticketElement.getElementsByTagName("EventMinAge").item(0).getTextContent());
+                            }
+
                             int eventTicketsCount = Integer.parseInt(ticketElement.getElementsByTagName("EventTicketsCount").item(0).getTextContent());
                             String eventDescription = ticketElement.getElementsByTagName("EventDescription").item(0).getTextContent();
+                            Event event = new Event(eventName, eventMinAge, eventTicketsCount, eventDescription);
+                            event.setId(eventId);
                             Ticket ticket = new Ticket(
                                     ticketName,
-                                    new Coordinates(coordinateX,coordinateY),
+                                    new Coordinates(coordinateX, coordinateY),
                                     date,
                                     ticketPrice,
                                     ticketType,
-                                    new Event(eventName, eventMinAge, eventTicketsCount, eventDescription)
+                                    event
                             );
                             ticket.setId(ticketId);
                             tickets.add(ticket);
-                        } catch (NullPointerException ignored){
-                            Ticket ticket1 = new Ticket(
+                        } catch (NullPointerException ignored) {
+                            Ticket ticket = new Ticket(
                                     ticketName,
-                                    new Coordinates(coordinateX,coordinateY),
+                                    new Coordinates(coordinateX, coordinateY),
                                     date,
                                     ticketPrice,
                                     ticketType,
                                     null
                             );
-                            ticket1.setId(ticketId);
-                            tickets.add(ticket1);
+                            ticket.setId(ticketId);
+                            tickets.add(ticket);
                         }
                     }
                 }
@@ -104,17 +120,15 @@ public class FileManager {
                 DOMSource source = new DOMSource(document);
                 StreamResult result = new StreamResult(new BufferedOutputStream(new FileOutputStream(filePath)));
                 transformer.transform(source, result);
-
-                System.out.println("XML файл успешно записан!");
-
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-        private static void fill(Document document, List<Ticket> tickets){
+
+        private static void fill(Document document, List<Ticket> tickets) {
             Node root = document.getDocumentElement();
 
-            for (Ticket ticket: tickets) {
+            for (Ticket ticket : tickets) {
                 List<Element> elementList = new ArrayList<>();
                 Element currTicket = document.createElement("Ticket");
 
@@ -159,13 +173,13 @@ public class FileManager {
                     elementList.add(eventMinAge);
 
                     Element eventTicketsCount = document.createElement("EventTicketsCount");
-                    eventTicketsCount.setTextContent(String.valueOf(ticket.getEvent().getMinAge()));
+                    eventTicketsCount.setTextContent(String.valueOf(ticket.getEvent().getTicketsCount()));
                     elementList.add(eventTicketsCount);
 
                     Element eventDescription = document.createElement("EventDescription");
                     eventDescription.setTextContent(ticket.getEvent().getDescription());
                     elementList.add(eventDescription);
-                } catch (NullPointerException ignored){
+                } catch (NullPointerException ignored) {
                 }
 
                 for (Element element : elementList) {
@@ -174,7 +188,8 @@ public class FileManager {
                 root.appendChild(currTicket);
             }
         }
-        private static void remove(Document document, String removing) throws XPathExpressionException {
+
+        private static void remove(Document document, String removing) {
             Element root = document.getDocumentElement();
             NodeList elementList = root.getElementsByTagName(removing);
             Node[] elementsToRemove = new Node[elementList.getLength()];
@@ -186,10 +201,11 @@ public class FileManager {
                 root.removeChild(node);
             }
         }
+
         private static void cleanup(Document document) throws XPathExpressionException {
             XPath xp = XPathFactory.newInstance().newXPath();
             NodeList nl = (NodeList) xp.evaluate("//text()[normalize-space(.)='']", document, XPathConstants.NODESET);
-            for (int i=0; i < nl.getLength(); ++i) {
+            for (int i = 0; i < nl.getLength(); ++i) {
                 Node node = nl.item(i);
                 node.getParentNode().removeChild(node);
             }

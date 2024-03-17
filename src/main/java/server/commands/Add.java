@@ -1,8 +1,7 @@
 package server.commands;
 
-import server.Server;
 import server.commands.interfaces.Command;
-import server.commons.TicketCreator;
+import server.utilities.TicketCreator;
 import server.managers.ListManager;
 
 public class Add implements Command {

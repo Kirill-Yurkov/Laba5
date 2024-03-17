@@ -1,4 +1,4 @@
-package server.commons;
+package server.utilities;
 
 import org.apache.maven.surefire.shared.lang3.ClassUtils;
 import org.reflections.Reflections;
@@ -7,7 +7,6 @@ import org.reflections.util.ConfigurationBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.lang.reflect.*;
 import java.util.Set;
 
 public class ReflectionImplements {

@@ -1,4 +1,4 @@
-package server.commons;
+package server.utilities;
 
 import server.patternclass.Coordinates;
 import server.patternclass.Event;
@@ -23,12 +23,14 @@ public class TicketCreator {
         createdTicketGroup.setPrice(readIntegerWithNull("price", 0));
         createdTicketGroup.setType(readTicketType(""));
         if(makeEvent()){
-            createdTicketGroup.setEvent(new Event(
+            Event event = new Event(
                     readName("event"),
                     readLongerWithNull("event min age"),
                     readInteger("event tickets count", 0),
                     readNameWithNull("event description")
-            ));
+            );
+            event.setId(IdCounter.getIdForEvent(event));
+            createdTicketGroup.setEvent(event);
         }
         createdTicketGroup.setId(IdCounter.getIdForTicket(createdTicketGroup));
         return createdTicketGroup;
@@ -54,7 +56,7 @@ public class TicketCreator {
         return str;
     }
     private static Integer readIntegerWithNull(String text, int limit){
-        System.out.print("Enter " + text + " int value (должно быть больше " + limit + " ):\n~~ ");
+        System.out.print("Enter " + text + " int value (должно быть больше " + limit + "):\n~~ ");
         String str = src.nextLine();
 
         try {
@@ -72,7 +74,7 @@ public class TicketCreator {
         }
     }
     private static Integer readInteger(String text, int limit){
-        System.out.print("Enter " + text + " int value (должно быть больше " + limit + " ):\n~~ ");
+        System.out.print("Enter " + text + " int value (должно быть больше " + limit + "):\n~~ ");
         String str = src.nextLine();
 
         try {
@@ -122,7 +124,7 @@ public class TicketCreator {
     }
 
     private static TicketType readTicketType(String text){
-        System.out.print("Enter " + text + " ticket type (VIP, USUAL, CHEAP):\n~~ ");
+        System.out.print("Enter" + text + " ticket type (VIP, USUAL, CHEAP):\n~~ ");
         String str = src.nextLine();
         if (str.isEmpty() || str.isBlank()){
             readTicketType(text);

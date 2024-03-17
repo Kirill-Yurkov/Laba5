@@ -1,8 +1,7 @@
 package server.managers;
 
 import lombok.Getter;
-import lombok.Setter;
-import server.commons.IdCounter;
+import server.utilities.IdCounter;
 import server.patternclass.Ticket;
 
 import java.util.ArrayList;
@@ -14,6 +13,7 @@ public class ListManager {
 
     public static void setTicketList(List<Ticket> ticketList) {
         ListManager.ticketList = ticketList;
+        IdCounter.initializeIdTickets();
     }
 
     public static void add(Ticket ticket) {
