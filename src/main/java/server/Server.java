@@ -8,10 +8,9 @@ import server.managers.ListManager;
 import server.utilities.IdCounter;
 import server.utilities.TicketCreator;
 
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
-import java.util.Scanner;
 
 @Getter
 public class Server {
@@ -22,32 +21,42 @@ public class Server {
     private final TicketCreator ticketCreator = new TicketCreator(this);
     private final FileManager.ReaderWriter readerWriter = fileManager.new ReaderWriter();
     private final FileManager.InputOutput inputOutput = fileManager.new InputOutput();
+
     public void setFilePath(String filePath) {
         fileManager.setFilePath(filePath);
         readerWriter.readXML();
         listManager.readTicketList();
     }
-    public void setReader(BufferedReader reader){
+
+    public void setReader(BufferedReader reader) {
         inputOutput.setReader(reader);
+        ;
     }
-    public void setWriter(BufferedWriter writer){
+
+    public void setWriter(BufferedOutputStream writer) {
         inputOutput.setWriter(writer);
     }
-    public void inPut(){
+
+    public String inPut() {
         try {
-            inputOutput.getReader().readLine();
+            return inputOutput.getReader().readLine();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
-    public void outPut(String text){
+
+    public void outPut(String text) {
         try {
-            inputOutput.getWriter().write(inputOutput.outPut(text)+"\n");
+            String s = text;
+            inputOutput.getWriter().write(s.getBytes());
+            inputOutput.getWriter().flush();
         } catch (IOException e) {
+            System.err.println(e);
             throw new RuntimeException(e);
         }
 
     }
+
     public String invoke(String commandName) {
         try {
             return commandInvoker.invoke(commandName);

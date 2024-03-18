@@ -78,7 +78,6 @@ public class IdCounter {
             try {
                 idEvents.put(ticket.getEvent().getId(), ticket.getEvent());
             } catch (NullPointerException ignored) {
-
             }
         }
     }

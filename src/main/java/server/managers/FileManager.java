@@ -55,10 +55,7 @@ public class FileManager {
     @Setter
     public class InputOutput{
         private BufferedReader reader;
-        private BufferedWriter writer;
-        public String outPut(String text){
-            return text;
-        }
+        private BufferedOutputStream writer;
     }
 
     public class ReaderWriter {

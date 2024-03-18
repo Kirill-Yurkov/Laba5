@@ -16,7 +16,7 @@ public class Show implements Command {
     public String execute() {
         StringBuilder s = new StringBuilder();
         for (Ticket ticket : server.getListManager().getTicketList()) {
-            s.append("\n").append(ticket.toString());
+            s.append(ticket.toString()).append("\n");
         }
         return String.valueOf(s);
     }

@@ -13,7 +13,6 @@ import java.util.Scanner;
 public class TicketCreator {
     @Getter
     private Server server;
-    private final Scanner src = new Scanner(System.in);
 
     public TicketCreator(Server server) {
         this.server = server;
@@ -43,8 +42,8 @@ public class TicketCreator {
     }
 
     private String readName(String text) {
-        System.out.print("Enter " + text + " name:\n~~ ");
-        String str = src.nextLine();
+        server.outPut("Enter " + text + " name:\n~~ ");
+        String str = server.inPut();
         if (str.isEmpty() || str.isBlank() || str.equals("null")) {
             return readName(text);
         }
@@ -52,8 +51,8 @@ public class TicketCreator {
     }
 
     private String readNameWithNull(String text) {
-        System.out.print("Enter " + text + " name:\n~~ ");
-        String str = src.nextLine();
+        server.outPut("Enter " + text + " name:\n~~ ");
+        String str = server.inPut();
         if (str.equals("null")) {
             return null;
         }
@@ -64,92 +63,92 @@ public class TicketCreator {
     }
 
     private Integer readIntegerWithNull(String text, int limit) {
-        System.out.print("Enter " + text + " int value (должно быть больше " + limit + "):\n~~ ");
-        String str = src.nextLine();
+        server.outPut("Enter " + text + " int value (должно быть больше " + limit + "):\n~~ ");
+        String str = server.inPut();
 
         try {
             if (str.equals("null")) {
                 return null;
             }
             if (str.isEmpty() || str.isBlank() || Integer.parseInt(str) <= limit) {
-                System.out.println("incorrect int value");
+                server.outPut("incorrect int value\n");
                 return readIntegerWithNull(text, limit);
             }
             return Integer.parseInt(str);
 
         } catch (NumberFormatException e) {
-            System.out.println("incorrect int value");
+            server.outPut("incorrect int value\n");
             return readIntegerWithNull(text, limit);
         }
     }
 
     private Integer readInteger(String text, int limit) {
-        System.out.print("Enter " + text + " int value (должно быть больше " + limit + "):\n~~ ");
-        String str = src.nextLine();
+        server.outPut("Enter " + text + " int value (должно быть больше " + limit + "):\n~~ ");
+        String str = server.inPut();
 
         try {
             if (str.isEmpty() || str.isBlank() || Integer.parseInt(str) <= limit) {
-                System.out.println("incorrect int value");
+                server.outPut("incorrect int value\n");
                 return readInteger(text, limit);
             }
             return Integer.parseInt(str);
         } catch (NumberFormatException e) {
-            System.out.println("incorrect int value");
+            server.outPut("incorrect int value\n");
             return readInteger(text, limit);
         }
     }
 
     private Long readLongerWithNull(String text) {
-        System.out.print("Enter " + text + " long value:\n~~ ");
-        String str = src.nextLine();
+        server.outPut("Enter " + text + " long value:\n~~ ");
+        String str = server.inPut();
         if (str.equals("null")) {
             return null;
         }
         if (str.isEmpty() || str.isBlank()) {
-            System.out.println("incorrect long value");
+            server.outPut("incorrect long value\n");
             return readLongerWithNull(text);
         }
         try {
             return Long.parseLong(str);
         } catch (NumberFormatException e) {
-            System.out.println("incorrect long value");
+            server.outPut("incorrect long value\n");
             return readLongerWithNull(text);
         }
 
     }
 
     private Long readLonger(String text, long limit) {
-        System.out.print("Enter " + text + " long value (должно быть больше " + limit + " ):\n~~ ");
-        String str = src.nextLine();
+        server.outPut("Enter " + text + " long value (должно быть больше " + limit + " ):\n~~ ");
+        String str = server.inPut();
         try {
             if (str.isEmpty() || str.isBlank() || Long.parseLong(str) <= limit) {
                 return readLonger(text, limit);
             }
             return Long.parseLong(str);
         } catch (NumberFormatException e) {
-            System.out.println("incorrect long value");
+            server.outPut("incorrect long value\n");
             return readLonger(text, limit);
         }
 
     }
 
     private TicketType readTicketType(String text) {
-        System.out.print("Enter" + text + " ticket type (VIP, USUAL, CHEAP):\n~~ ");
-        String str = src.nextLine();
+        server.outPut("Enter" + text + " ticket type (VIP, USUAL, CHEAP):\n~~ ");
+        String str = server.inPut();
         if (str.isEmpty() || str.isBlank()) {
             return readTicketType(text);
         }
         try {
             return TicketType.valueOf(str);
         } catch (IllegalArgumentException e) {
-            System.out.println("incorrect ticket type value");
+            server.outPut("incorrect ticket type value\n");
             return readTicketType(text);
         }
     }
 
     private boolean makeEvent() {
-        System.out.print("Do you want to make event? (yes/no)\n~~ ");
-        String str = src.nextLine();
+        server.outPut("Do you want to make event? (yes/no)\n~~ ");
+        String str = server.inPut();
         switch (str) {
             case "yes" -> {
                 return true;
