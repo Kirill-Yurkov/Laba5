@@ -1,21 +1,24 @@
 package server.commands;
 
-import lombok.Getter;
-import lombok.Setter;
 import server.Server;
 import server.commands.interfaces.Command;
-import server.managers.FileManager;
-import server.managers.ListManager;
+import server.utilities.CommandValues;
+
 public class Save implements Command {
     private Server server;
+
+    @Override
+    public CommandValues getValue() {
+        return CommandValues.NOTHING;
+    }
+
     @Override
     public void setServer(Server server) {
         this.server = server;
     }
     @Override
-    public String execute() {
+    public String execute(String s) {
         server.getReaderWriter().writeXML(server.getFileManager().getFilePath(), server.getListManager().getTicketList());
-        System.out.println("-----");
         return "successfully";
     }
 

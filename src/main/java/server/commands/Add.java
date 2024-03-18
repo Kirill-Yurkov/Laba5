@@ -1,14 +1,17 @@
 package server.commands;
 
-import lombok.Getter;
-import lombok.Setter;
 import server.Server;
 import server.commands.interfaces.Command;
-import server.utilities.TicketCreator;
-import server.managers.ListManager;
+import server.patternclass.Ticket;
+import server.utilities.CommandValues;
 
 public class Add implements Command {
     private Server server;
+
+    @Override
+    public CommandValues getValue() {
+        return CommandValues.ELEMENT;
+    }
 
     @Override
     public void setServer(Server server) {
@@ -16,8 +19,13 @@ public class Add implements Command {
     }
 
     @Override
-    public String execute(){
-        server.getListManager().add(server.getTicketCreator().createTicketGroup());
+    public String execute(String s) {
+        Ticket ticket = server.getTicketCreator().createTicketGroup();
+        ticket.setId(server.getIdCounter().getIdForTicket(ticket));
+        if(ticket.getEvent()!=null){
+            ticket.getEvent().setId(server.getIdCounter().getIdForEvent(ticket.getEvent()));
+        }
+        server.getListManager().add(ticket);
         return "Successfully created";
     }
 

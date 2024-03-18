@@ -5,6 +5,8 @@ import server.Server;
 import server.patternclass.Ticket;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @Getter
@@ -18,20 +20,27 @@ public class ListManager {
 
     public void setTicketList(List<Ticket> tickets) {
         ticketList = tickets;
-        server.getIdCounter().initializeIdTickets();
+        initializeCollection();
     }
 
     public void add(Ticket ticket) {
         ticketList.add(ticket);
+        initializeCollection();
     }
 
     public void remove(Ticket ticket) {
         ticketList.remove(ticket);
-        server.getIdCounter().delTicketByID(ticket.getId());
+        server.getIdCounter().replaceTicketByID(ticket.getId(), null);
+        initializeCollection();
     }
 
     public void readTicketList() {
         ticketList = server.getReaderWriter().getCollectionTicket();
+        initializeCollection();
+    }
+    private void initializeCollection(){
         server.getIdCounter().initializeIdTickets();
+        server.getIdCounter().initializeIdEvents();
+        Collections.sort(ticketList);
     }
 }

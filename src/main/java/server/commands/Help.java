@@ -1,25 +1,28 @@
 package server.commands;
 
-import lombok.Getter;
-import lombok.Setter;
 import server.Server;
 import server.commands.interfaces.Command;
-
-import java.io.Console;
+import server.utilities.CommandValues;
 
 public class Help implements Command {
     private Server server;
+
+    @Override
+    public CommandValues getValue() {
+        return CommandValues.NOTHING;
+    }
+
     @Override
     public void setServer(Server server) {
         this.server = server;
     }
     @Override
-    public String execute(){
-        StringBuilder s= new StringBuilder();
+    public String execute(String s){
+        StringBuilder str = new StringBuilder();
         for(Command command: server.getCommandInvoker().getCommands()){
-            s.append("\n").append(command.getName()).append(" : ").append(command.description());
+            str.append(command.getName()).append(" : ").append(command.description()).append("\n");
         }
-        return s.toString();
+        return str.toString();
     }
 
     @Override

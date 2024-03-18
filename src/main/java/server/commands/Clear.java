@@ -1,23 +1,27 @@
 package server.commands;
 
-import lombok.Getter;
-import lombok.Setter;
 import server.Server;
 import server.commands.interfaces.Command;
-import server.managers.ListManager;
 import server.patternclass.Ticket;
+import server.utilities.CommandValues;
 
 import java.util.ArrayList;
 import java.util.List;
 public class Clear implements Command {
     private Server server;
+
+    @Override
+    public CommandValues getValue() {
+        return CommandValues.NOTHING;
+    }
+
     @Override
     public void setServer(Server server) {
         this.server = server;
     }
 
     @Override
-    public String execute() {
+    public String execute(String s) {
         List<Ticket> tickets = new ArrayList<>();
         server.getListManager().setTicketList(tickets);
         return "successfully";

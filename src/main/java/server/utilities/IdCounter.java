@@ -8,8 +8,8 @@ import server.patternclass.Ticket;
 import java.util.HashMap;
 
 public class IdCounter {
-    private HashMap<Long, Ticket> idTickets = new HashMap<>();
-    private HashMap<Integer, Event> idEvents = new HashMap<>();
+    private final HashMap<Long, Ticket> idTickets = new HashMap<>();
+    private final HashMap<Integer, Event> idEvents = new HashMap<>();
     @Getter
     private Server server;
 
@@ -27,9 +27,11 @@ public class IdCounter {
         idTickets.put((long) (idTickets.size() + 1), ticket);
         return idTickets.size();
     }
-
-    public void delTicketByID(long i) {
-        idTickets.put(i, null);
+    public void replaceTicketByID(long i, Ticket ticket) {
+        idTickets.put(i, ticket);
+        if(ticket != null){
+            ticket.setId(i);
+        }
     }
 
     public void initializeIdTickets() {
@@ -45,7 +47,6 @@ public class IdCounter {
         for (Ticket ticket : server.getListManager().getTicketList()) {
             idTickets.put(ticket.getId(), ticket);
         }
-        initializeIdEvents();
     }
 
     public int getIdForEvent(Event event) {

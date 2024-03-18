@@ -58,13 +58,12 @@ public class FileManager {
         private BufferedOutputStream writer;
     }
 
+    @Getter
     public class ReaderWriter {
-        @Getter
         @Setter
         private List<String> collectionInfo = new ArrayList<>();
 
         @Setter
-        @Getter
         private List<Ticket> collectionTicket = new ArrayList<>();
 
         public void readXML() {

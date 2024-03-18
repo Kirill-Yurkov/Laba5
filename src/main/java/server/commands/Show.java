@@ -3,9 +3,15 @@ package server.commands;
 import server.Server;
 import server.commands.interfaces.Command;
 import server.patternclass.Ticket;
+import server.utilities.CommandValues;
 
 public class Show implements Command {
     private Server server;
+
+    @Override
+    public CommandValues getValue() {
+        return CommandValues.NOTHING;
+    }
 
     @Override
     public void setServer(Server server) {
@@ -13,12 +19,12 @@ public class Show implements Command {
     }
 
     @Override
-    public String execute() {
-        StringBuilder s = new StringBuilder();
+    public String execute(String s) {
+        StringBuilder str = new StringBuilder();
         for (Ticket ticket : server.getListManager().getTicketList()) {
-            s.append(ticket.toString()).append("\n");
+            str.append(ticket.toString()).append("\n");
         }
-        return String.valueOf(s);
+        return String.valueOf(str);
     }
 
     @Override

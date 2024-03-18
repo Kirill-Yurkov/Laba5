@@ -2,18 +2,26 @@ package server.commands;
 
 import server.Server;
 import server.commands.interfaces.Command;
+import server.exceptions.StopServerException;
+import server.utilities.CommandValues;
 
 public class Exit implements Command {
     private Server server;
+
+    @Override
+    public CommandValues getValue() {
+        return CommandValues.NOTHING;
+    }
+
     @Override
     public void setServer(Server server) {
         this.server = server;
     }
 
     @Override
-    public String execute() {
-        System.exit(-1);
-        return null;
+    public String execute(String s) throws StopServerException {
+        server.stop();
+        throw new StopServerException("");
     }
 
     @Override

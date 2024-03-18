@@ -16,9 +16,7 @@ public class Ticket implements Comparable<Ticket> {
     private TicketType type; //Поле не может быть null
     private Event event; //Поле может быть null
 
-    public Ticket() {
-
-    }
+    public Ticket() {}
 
     public Event getEvent() throws NullPointerException {
         return event;

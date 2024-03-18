@@ -8,10 +8,9 @@ import server.patternclass.Ticket;
 import server.patternclass.TicketType;
 
 import java.util.Date;
-import java.util.Scanner;
 
+@Getter
 public class TicketCreator {
-    @Getter
     private Server server;
 
     public TicketCreator(Server server) {
@@ -34,10 +33,8 @@ public class TicketCreator {
                     readInteger("event tickets count", 0),
                     readNameWithNull("event description")
             );
-            event.setId(server.getIdCounter().getIdForEvent(event));
             createdTicketGroup.setEvent(event);
         }
-        createdTicketGroup.setId(server.getIdCounter().getIdForTicket(createdTicketGroup));
         return createdTicketGroup;
     }
 

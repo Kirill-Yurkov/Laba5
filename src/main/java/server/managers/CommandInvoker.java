@@ -5,6 +5,7 @@ import lombok.Getter;
 import server.Server;
 import server.commands.interfaces.Command;
 import server.exceptions.CommandValueException;
+import server.exceptions.StopServerException;
 import server.utilities.ReflectionImplements;
 
 import java.util.ArrayList;
@@ -27,18 +28,34 @@ public class CommandInvoker {
             }
         }
     }
-    public String invoke(String commandName) throws CommandValueException {
-        String[] s = commandName.split(" ");
-        return commands.get(commandName).execute();
+
+    public String invoke(String commandName) throws CommandValueException, NullPointerException, StopServerException {
+        String[] s = commandName.strip().split(" ");
+        switch (commands.get(s[0]).getValue()) {
+            case NOTHING, ELEMENT -> {
+                if (s.length == 1) {
+                    return commands.get(s[0]).execute("");
+                }
+                throw new CommandValueException("unexpected values");
+            }
+            case VALUE, VALUE_ELEMENT -> {
+                if (s.length == 2) {
+                    return commands.get(s[0]).execute(s[1]);
+                }
+                throw new CommandValueException("wrong valuse");
+            }
+            case null, default -> throw new NullPointerException("");
+        }
     }
 
-    public void registerCommand(Command... commandsToRegister) {
+    private void registerCommand(Command... commandsToRegister) {
         for (Command command : commandsToRegister) {
             command.setServer(server);
             commands.put(command.getName(), command);
         }
     }
-    public List<Command> getCommands(){
+
+    public List<Command> getCommands() {
         return new ArrayList<>(this.commands.values());
     }
 }
