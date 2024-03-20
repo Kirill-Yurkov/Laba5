@@ -2,6 +2,7 @@ package server.commands;
 
 import server.Server;
 import server.commands.interfaces.Command;
+import server.exceptions.CommandCollectionZeroException;
 import server.exceptions.CommandValueException;
 import server.patternclass.Ticket;
 import server.utilities.CommandValues;
@@ -20,13 +21,16 @@ public class CountGreaterThanEvent implements Command {
     }
 
     @Override
-    public String execute(String s) throws CommandValueException {
+    public String execute(String s) throws CommandValueException, CommandCollectionZeroException {
         int count = 0;
         int ticketsCount;
         try {
             ticketsCount = Integer.parseInt(s);
         } catch (NumberFormatException ignored) {
             throw new CommandValueException("int");
+        }
+        if(server.getListManager().getTicketList().isEmpty()){
+            throw new CommandCollectionZeroException("collection is zero");
         }
         for (Ticket ticket : server.getListManager().getTicketList()) {
             if (ticket.getEvent() != null && ticket.getEvent().getTicketsCount() > ticketsCount) {

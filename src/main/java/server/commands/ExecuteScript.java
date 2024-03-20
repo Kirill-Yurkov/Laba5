@@ -1,5 +1,6 @@
-package server;
+package server.commands;
 
+import server.Server;
 import server.commands.interfaces.Command;
 import server.exceptions.StopServerException;
 import server.utilities.CommandValues;

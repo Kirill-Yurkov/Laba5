@@ -2,6 +2,7 @@ package server.commands;
 
 import server.Server;
 import server.commands.interfaces.Command;
+import server.exceptions.CommandCollectionZeroException;
 import server.exceptions.CommandValueException;
 import server.exceptions.StopServerException;
 import server.patternclass.Ticket;
@@ -20,7 +21,10 @@ public class AddIfMin implements Command {
     }
 
     @Override
-    public String execute(String s) throws StopServerException, CommandValueException {
+    public String execute(String s) throws StopServerException, CommandValueException, CommandCollectionZeroException {
+        if(server.getListManager().getTicketList().isEmpty()){
+            throw new CommandCollectionZeroException("collection is zero");
+        }
         Ticket ticket = server.getTicketCreator().createTicketGroup();
         int mini = Integer.MAX_VALUE;
         for (Ticket localTicket : server.getListManager().getTicketList()) {

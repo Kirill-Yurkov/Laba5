@@ -2,6 +2,7 @@ package server.commands;
 
 import server.Server;
 import server.commands.interfaces.Command;
+import server.exceptions.CommandCollectionZeroException;
 import server.utilities.CommandValues;
 
 import java.util.Collections;
@@ -20,9 +21,11 @@ public class Shuffle implements Command {
     }
 
     @Override
-    public String execute(String s) {
+    public String execute(String s) throws CommandCollectionZeroException {
+        if(server.getListManager().getTicketList().isEmpty()){
+            throw new CommandCollectionZeroException("collection is zero");
+        }
         Collections.shuffle(server.getListManager().getTicketList());
-
         return "successfully shuffled";
     }
 

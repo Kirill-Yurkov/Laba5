@@ -2,6 +2,8 @@ package server.commands;
 
 import server.Server;
 import server.commands.interfaces.Command;
+import server.exceptions.CommandCollectionZeroException;
+import server.exceptions.CommandValueException;
 import server.patternclass.Ticket;
 import server.utilities.CommandValues;
 
@@ -18,12 +20,15 @@ public class Update implements Command {
     }
 
     @Override
-    public String execute(String s) {
+    public String execute(String s) throws CommandValueException, CommandCollectionZeroException {
         long id;
         try {
             id = Long.parseLong(s);
         } catch (NumberFormatException ignored){
-            return "Incorrect value of command";
+            throw new CommandValueException("long");
+        }
+        if(server.getListManager().getTicketList().isEmpty()){
+            throw new CommandCollectionZeroException("collection is zero");
         }
         for(Ticket ticket: server.getListManager().getTicketList()){
             if (ticket.getId() == id){
@@ -37,7 +42,7 @@ public class Update implements Command {
                 return "successfully";
             }
         }
-        return "Id not found";
+        throw new CommandValueException("id not find");
     }
 
     @Override

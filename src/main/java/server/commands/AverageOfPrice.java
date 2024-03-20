@@ -2,6 +2,7 @@ package server.commands;
 
 import server.Server;
 import server.commands.interfaces.Command;
+import server.exceptions.CommandCollectionZeroException;
 import server.patternclass.Ticket;
 import server.utilities.CommandValues;
 
@@ -19,7 +20,7 @@ public class AverageOfPrice implements Command {
     }
 
     @Override
-    public String execute(String s) {
+    public String execute(String s) throws CommandCollectionZeroException {
         int price = 0;
         for (Ticket ticket : server.getListManager().getTicketList()) {
             if (ticket.getPrice() != null) {
@@ -27,7 +28,7 @@ public class AverageOfPrice implements Command {
             }
         }
         if (server.getListManager().getTicketList().isEmpty()) {
-            return "List is empty";
+            throw new CommandCollectionZeroException("collection is zero");
         } else {
             return String.valueOf(price / server.getListManager().getTicketList().size());
         }

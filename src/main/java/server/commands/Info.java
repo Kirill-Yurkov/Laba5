@@ -2,6 +2,7 @@ package server.commands;
 
 import server.Server;
 import server.commands.interfaces.Command;
+import server.exceptions.CommandCollectionZeroException;
 import server.utilities.CommandValues;
 
 public class Info implements Command {
@@ -18,7 +19,10 @@ public class Info implements Command {
     }
 
     @Override
-    public String execute(String s) {
+    public String execute(String s) throws CommandCollectionZeroException {
+        if(server.getReaderWriter().getCollectionInfo().isEmpty()){
+            throw new CommandCollectionZeroException("Collection information will be updating in next save");
+        }
         return server.getReaderWriter().getCollectionInfo().toString();
     }
 

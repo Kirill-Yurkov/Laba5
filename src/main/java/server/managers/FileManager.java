@@ -8,10 +8,13 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import server.Server;
+import server.exceptions.CommandValueException;
+import server.exceptions.FileException;
 import server.patternclass.Coordinates;
 import server.patternclass.Event;
 import server.patternclass.Ticket;
 import server.patternclass.TicketType;
+import server.utilities.Validator;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -51,9 +54,10 @@ public class FileManager {
     public FileManager(Server server) {
         this.server = server;
     }
+
     @Getter
     @Setter
-    public class InputOutput{
+    public class InputOutput {
         private BufferedReader reader;
         private BufferedOutputStream writer;
     }
@@ -66,16 +70,16 @@ public class FileManager {
         @Setter
         private List<Ticket> collectionTicket = new ArrayList<>();
 
-        public void readXML() {
-            setCollectionTicket(readTickets(document));
+        public void readXML() throws FileException {
             try {
+                setCollectionTicket(readTickets(document));
                 setCollectionInfo(readCollectionInfo(document));
-            } catch (ParseException e) {
-                throw new RuntimeException(e);
+            } catch (ParseException | FileException | CommandValueException e) {
+                throw new FileException("fail read: " + e.getMessage());
             }
         }
 
-        private List<Ticket> readTickets(Document document) {
+        private List<Ticket> readTickets(Document document) throws FileException, CommandValueException {
             List<Ticket> tickets = new ArrayList<>();
             try {
                 Element root = document.getDocumentElement();
@@ -84,31 +88,86 @@ public class FileManager {
                     Node ticketNode = ticketList.item(i);
                     if (ticketNode.getNodeType() == Node.ELEMENT_NODE) {
                         Element ticketElement = (Element) ticketNode;
-                        long ticketId = Long.parseLong(ticketElement.getElementsByTagName("TicketId").item(0).getTextContent());
+
+                        String ticketIdString = ticketElement.getElementsByTagName("TicketId").item(0).getTextContent();
+                        if (!Validator.isValidLonger(ticketIdString, 0)) {
+                            throw new CommandValueException("incorrect TicketId value");
+                        }
+                        long ticketId = Long.parseLong(ticketIdString);
+
                         String ticketName = ticketElement.getElementsByTagName("TicketName").item(0).getTextContent();
-                        long coordinateX = Long.parseLong(ticketElement.getElementsByTagName("CoordinateX").item(0).getTextContent());
-                        long coordinateY = Long.parseLong(ticketElement.getElementsByTagName("CoordinateY").item(0).getTextContent());
-                        String date1 = ticketElement.getElementsByTagName("TicketCreationDate").item(0).getTextContent();
-                        SimpleDateFormat formatter = new SimpleDateFormat("EEE LLL d HH:m:s z yyyy", Locale.ENGLISH);
-                        Date date = formatter.parse(date1);
+                        if (!Validator.isValidString(ticketName)) {
+                            throw new CommandValueException("incorrect TicketName value");
+                        }
+
+                        String coordinateXString = ticketElement.getElementsByTagName("CoordinateX").item(0).getTextContent();
+                        if (!Validator.isValidLonger(coordinateXString, -503)) {
+                            throw new CommandValueException("incorrect CoordinateX vale");
+                        }
+                        long coordinateX = Long.parseLong(coordinateXString);
+
+                        String coordinateYString = ticketElement.getElementsByTagName("CoordinateY").item(0).getTextContent();
+                        if (!Validator.isValidLonger(coordinateYString, -664)) {
+                            throw new CommandValueException("incorrect CoordinateX vale");
+                        }
+                        long coordinateY = Long.parseLong(coordinateYString);
+
+                        Date date;
+                        try {
+                            String date1 = ticketElement.getElementsByTagName("TicketCreationDate").item(0).getTextContent();
+                            SimpleDateFormat formatter = new SimpleDateFormat("EEE LLL d HH:m:s z yyyy", Locale.ENGLISH);
+                            date = formatter.parse(date1);
+                        } catch (Exception e) {
+                            throw new CommandValueException("incorrect TicketCreationDate value");
+                        }
+
+                        String ticketPriceString = ticketElement.getElementsByTagName("TicketPrice").item(0).getTextContent();
                         Integer ticketPrice;
-                        if (ticketElement.getElementsByTagName("TicketPrice").item(0).getTextContent().equals("null")) {
+                        if (Validator.isValidIntegerWithNull(ticketPriceString, 0) == null) {
                             ticketPrice = null;
+                        } else if (!Boolean.TRUE.equals(Validator.isValidIntegerWithNull(ticketPriceString, 0))) {
+                            throw new CommandValueException("incorrect TicketPrice value");
                         } else {
                             ticketPrice = Integer.parseInt(ticketElement.getElementsByTagName("TicketPrice").item(0).getTextContent());
                         }
-                        TicketType ticketType = TicketType.valueOf(ticketElement.getElementsByTagName("TicketType").item(0).getTextContent());
+
+                        String ticketTypeString = ticketElement.getElementsByTagName("TicketType").item(0).getTextContent();
+                        if (!Validator.isValidTicketType(ticketTypeString)) {
+                            throw new CommandValueException("incorrect icketType value");
+                        }
+                        TicketType ticketType = TicketType.valueOf(ticketTypeString);
                         try {
-                            Integer eventId = Integer.parseInt(ticketElement.getElementsByTagName("EventId").item(0).getTextContent());
-                            String eventName = ticketElement.getElementsByTagName("EventName").item(0).getTextContent();
-                            Long eventMinAge;
-                            if (ticketElement.getElementsByTagName("EventMinAge").item(0).getTextContent().equals("null")) {
-                                eventMinAge = null;
-                            } else {
-                                eventMinAge = Long.parseLong(ticketElement.getElementsByTagName("EventMinAge").item(0).getTextContent());
+                            String eventIdString = ticketElement.getElementsByTagName("EventId").item(0).getTextContent();
+                            if (!Validator.isValidInteger(eventIdString, 0)) {
+                                throw new CommandValueException("incorrect EventId value");
                             }
-                            int eventTicketsCount = Integer.parseInt(ticketElement.getElementsByTagName("EventTicketsCount").item(0).getTextContent());
+                            Integer eventId = Integer.parseInt(eventIdString);
+
+                            String eventName = ticketElement.getElementsByTagName("EventName").item(0).getTextContent();
+
+                            String eventMinAgeString = ticketElement.getElementsByTagName("EventMinAge").item(0).getTextContent();
+                            Long eventMinAge;
+                            if (Validator.isValidLongerWithNull(eventMinAgeString) == null) {
+                                eventMinAge = null;
+                            } else if (!Boolean.TRUE.equals(Validator.isValidLongerWithNull(eventMinAgeString))) {
+                                throw new CommandValueException("incorrect EventMinAge value");
+                            } else{
+                                eventMinAge = Long.parseLong(eventMinAgeString);
+                            }
+
+
+                            String eventTicketsCountString = ticketElement.getElementsByTagName("EventTicketsCount").item(0).getTextContent();
+                            if (!Validator.isValidInteger(eventTicketsCountString, 0)) {
+                                throw new CommandValueException("incorrect EventTicketsCount value");
+                            }
+                            int eventTicketsCount = Integer.parseInt(eventTicketsCountString);
+
                             String eventDescription = ticketElement.getElementsByTagName("EventDescription").item(0).getTextContent();
+                            if (Validator.isValidStringWithNull(eventDescription) == null) {
+                                eventDescription = null;
+                            } else if (!Boolean.TRUE.equals(Validator.isValidStringWithNull(eventDescription))) {
+                                throw new CommandValueException("incorrect EventDescription");
+                            }
                             Event event = new Event(eventName, eventMinAge, eventTicketsCount, eventDescription);
                             event.setId(eventId);
                             Ticket ticket = new Ticket(
@@ -135,8 +194,11 @@ public class FileManager {
                         }
                     }
                 }
+            } catch (CommandValueException e) {
+                throw new FileException("incorrect ticket: " + e.getMessage());
             } catch (Exception e) {
                 e.printStackTrace();
+                throw new FileException("incorrect ticket");
             }
             return tickets;
         }
@@ -145,7 +207,7 @@ public class FileManager {
             try {
                 Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new File(filePath));
                 cleanup(document);
-                remove(document,"Ticket");
+                remove(document, "Ticket");
                 remove(document, "Collection");
                 fillCollectionInfo(document);
                 fill(document, tickets);
@@ -154,8 +216,7 @@ public class FileManager {
                 DOMSource source = new DOMSource(document);
                 StreamResult result = new StreamResult(new BufferedOutputStream(new FileOutputStream(filePath)));
                 transformer.transform(source, result);
-            } catch (Exception e) {
-                e.printStackTrace();
+            } catch (Exception ignored) {
             }
         }
 
@@ -245,28 +306,34 @@ public class FileManager {
             }
         }
 
-        private List<String> readCollectionInfo(Document document) throws ParseException {
+        private List<String> readCollectionInfo(Document document) throws ParseException, FileException {
             Element root = document.getDocumentElement();
             Node ticketNode = root.getElementsByTagName("Collection").item(0);
-            if (ticketNode.getNodeType() == Node.ELEMENT_NODE) {
-                Element collection = (Element) ticketNode;
-                String typeCollection = collection.getElementsByTagName("CollectionType").item(0).getTextContent();
-                String date1 = collection.getElementsByTagName("CollectionCreationDate").item(0).getTextContent();
-                SimpleDateFormat formatter = new SimpleDateFormat("EEE LLL d HH:m:s z yyyy", Locale.ENGLISH);
-                formatter.setLenient(false);
-                Date date = formatter.parse(date1);
-                int countCollection = Integer.parseInt(collection.getElementsByTagName("CollectionCount").item(0).getTextContent());
-                String xmlVersionCollection = collection.getElementsByTagName("CollectionXmlVersion").item(0).getTextContent();
-                String xmlEncoding = collection.getElementsByTagName("CollectionXmlEncoding").item(0).getTextContent();
-                List<String> list = new ArrayList<>();
-                list.add(typeCollection);
-                list.add(String.valueOf(date));
-                list.add(String.valueOf(countCollection));
-                list.add(xmlVersionCollection);
-                list.add(xmlEncoding);
-                return list;
+            try {
+                if (ticketNode.getNodeType() == Node.ELEMENT_NODE) {
+                    Element collection = (Element) ticketNode;
+                    String typeCollection = collection.getElementsByTagName("CollectionType").item(0).getTextContent();
+                    String date1 = collection.getElementsByTagName("CollectionCreationDate").item(0).getTextContent();
+                    SimpleDateFormat formatter = new SimpleDateFormat("EEE LLL d HH:m:s z yyyy", Locale.ENGLISH);
+                    formatter.setLenient(false);
+                    Date date = formatter.parse(date1);
+                    int countCollection = Integer.parseInt(collection.getElementsByTagName("CollectionCount").item(0).getTextContent());
+                    String xmlVersionCollection = collection.getElementsByTagName("CollectionXmlVersion").item(0).getTextContent();
+                    String xmlEncoding = collection.getElementsByTagName("CollectionXmlEncoding").item(0).getTextContent();
+                    List<String> list = new ArrayList<>();
+                    list.add(typeCollection);
+                    list.add(String.valueOf(date));
+                    list.add(String.valueOf(countCollection));
+                    list.add(xmlVersionCollection);
+                    list.add(xmlEncoding);
+                    return list;
+                }
+            } catch (NullPointerException ignored) {
+                return new ArrayList<>();
+            } catch (Exception e){
+                throw new FileException("incorrect collection info");
             }
-            return new ArrayList<>();
+            throw new FileException("incorrect collection info");
         }
 
         private void fillCollectionInfo(Document document) {
