@@ -21,7 +21,7 @@ public class Exit implements Command {
     @Override
     public String execute(String s) throws StopServerException {
         server.stop();
-        throw new StopServerException("");
+        return "Successfully";
     }
 
     @Override

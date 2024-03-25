@@ -20,10 +20,14 @@ public class Info implements Command {
 
     @Override
     public String execute(String s) throws CommandCollectionZeroException {
-        if(server.getReaderWriter().getCollectionInfo().isEmpty()){
+        if (server.getReaderWriter().getCollectionInfo().isEmpty()) {
             throw new CommandCollectionZeroException("Collection information will be updating in next save");
         }
-        return server.getReaderWriter().getCollectionInfo().toString();
+        StringBuilder str = new StringBuilder();
+        for (String i : server.getReaderWriter().getCollectionInfo()) {
+            str.append(i).append("\n");
+        }
+        return str.toString();
     }
 
     @Override

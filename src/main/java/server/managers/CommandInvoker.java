@@ -6,6 +6,7 @@ import server.Server;
 import server.commands.interfaces.Command;
 import server.exceptions.CommandCollectionZeroException;
 import server.exceptions.CommandValueException;
+import server.exceptions.ScriptException;
 import server.exceptions.StopServerException;
 import server.utilities.ReflectionImplements;
 
@@ -30,7 +31,7 @@ public class CommandInvoker {
         }
     }
 
-    public String invoke(String commandName) throws CommandValueException, NullPointerException, StopServerException, CommandCollectionZeroException {
+    public String invoke(String commandName) throws CommandValueException, NullPointerException, StopServerException, CommandCollectionZeroException{
         String[] s = commandName.strip().split(" ");
         switch (commands.get(s[0]).getValue()) {
             case NOTHING, ELEMENT -> {

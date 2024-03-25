@@ -151,7 +151,7 @@ public class FileManager {
                                 eventMinAge = null;
                             } else if (!Boolean.TRUE.equals(Validator.isValidLongerWithNull(eventMinAgeString))) {
                                 throw new CommandValueException("incorrect EventMinAge value");
-                            } else{
+                            } else {
                                 eventMinAge = Long.parseLong(eventMinAgeString);
                             }
 
@@ -197,7 +197,6 @@ public class FileManager {
             } catch (CommandValueException e) {
                 throw new FileException("incorrect ticket: " + e.getMessage());
             } catch (Exception e) {
-                e.printStackTrace();
                 throw new FileException("incorrect ticket");
             }
             return tickets;
@@ -321,16 +320,16 @@ public class FileManager {
                     String xmlVersionCollection = collection.getElementsByTagName("CollectionXmlVersion").item(0).getTextContent();
                     String xmlEncoding = collection.getElementsByTagName("CollectionXmlEncoding").item(0).getTextContent();
                     List<String> list = new ArrayList<>();
-                    list.add(typeCollection);
-                    list.add(String.valueOf(date));
-                    list.add(String.valueOf(countCollection));
-                    list.add(xmlVersionCollection);
-                    list.add(xmlEncoding);
+                    list.add("Type of collection: " + typeCollection);
+                    list.add("Creation date of collection: " + date);
+                    list.add("Count of elements in collection: " + countCollection);
+                    list.add("XML version: " + xmlVersionCollection);
+                    list.add("XML encoding: " + xmlEncoding);
                     return list;
                 }
             } catch (NullPointerException ignored) {
                 return new ArrayList<>();
-            } catch (Exception e){
+            } catch (Exception e) {
                 throw new FileException("incorrect collection info");
             }
             throw new FileException("incorrect collection info");

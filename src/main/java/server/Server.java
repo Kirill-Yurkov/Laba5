@@ -1,10 +1,8 @@
 package server;
 
 import lombok.Getter;
-import server.exceptions.CommandCollectionZeroException;
-import server.exceptions.CommandValueException;
-import server.exceptions.FileException;
-import server.exceptions.StopServerException;
+import server.commands.ExecuteScript;
+import server.exceptions.*;
 import server.managers.CommandInvoker;
 import server.managers.FileManager;
 import server.managers.ListManager;
@@ -23,6 +21,7 @@ public class Server {
     private final FileManager.ReaderWriter readerWriter = fileManager.new ReaderWriter();
     private final FileManager.InputOutput inputOutput = fileManager.new InputOutput();
     private boolean serverOn;
+    private boolean isFileInitialized = false;
 
     public Server(BufferedReader reader, BufferedOutputStream writer) {
         inputOutput.setReader(reader);
@@ -48,14 +47,21 @@ public class Server {
         serverOn = false;
     }
     private boolean initializeFile(){
-        outPut("Enter the file path to collection file :\n~ ");
-        try {
-            setFilePath(inPut());// src/main/resources/Collection.xml
+        if(isFileInitialized){
             return true;
-        } catch (StopServerException e) {
-            outPut(e.getMessage() + "\n");
-            return initializeFile();
+        }else{
+            outPut("Enter the file path to collection file :\n~ ");
+            try {
+                setFilePath("src/main/resources/Collection.xml");// src/main/resources/Collection.xml
+                isFileInitialized = true;
+                return true;
+            } catch (StopServerException e) {
+                outPut(e.getMessage() + "\n");
+                isFileInitialized = false;
+                return initializeFile();
+            }
         }
+
     }
     public void start(boolean x) {
         if (initializeFile()){
@@ -64,9 +70,13 @@ public class Server {
                 try {
                     outPut("Введите комманду (для справки используйте комманду help) \n~ ");
                     String commandFromConsole = inPut();
-                    outPut(invoke(commandFromConsole) + "\n");
-                } catch (StopServerException e) {
-                    outPut(e.getMessage() + "\n");
+                    String str = invoke(commandFromConsole);
+                    if (str != null || str.isEmpty() || str.isBlank()){
+                        outPut(str + "\n");
+                    }
+                } catch (StopServerException e){
+                    outPut("Script isn't valid: " + e.getMessage() + "\n");
+                    outPut("\n");
                 }
             }
         }
@@ -75,20 +85,24 @@ public class Server {
         try {
             FileReader f = new FileReader(file.getAbsoluteFile());
             BufferedReader br = new BufferedReader(f);
+            inputOutput.setReader(br);
             String commandFromConsole;
             while ((commandFromConsole = br.readLine()) != null) {
                 try {
-                    outPut(invoke(commandFromConsole) + "\n");
-                } catch (StopServerException e) {
+                    String str = invoke(commandFromConsole);
+                    if (str != null) {
+                        outPut(str + "\n");
+                    }
+                }catch (StopServerException e){
                     outPut("Script isn't valid: " + e.getMessage() + "\n");
+                    outPut("\n");
                     f.close();
                     break;
                 }
             }
             f.close();
-            start(true);
         } catch (Exception e) {
-            outPut("Script isn't valid " + e.getMessage() + "\n");
+            outPut("Script isn't valid: " + e.getMessage() + "\n");
         }
     }
 
@@ -105,8 +119,8 @@ public class Server {
         try {
             inputOutput.getWriter().write(text.getBytes());
             inputOutput.getWriter().flush();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        } catch (IOException ignored) {
+
         }
     }
 
