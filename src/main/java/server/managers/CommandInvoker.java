@@ -46,7 +46,7 @@ public class CommandInvoker {
                 }
                 throw new CommandValueException("wrong valuse");
             }
-            case null, default -> throw new NullPointerException("");
+            default -> throw new NullPointerException("");
         }
     }
 
