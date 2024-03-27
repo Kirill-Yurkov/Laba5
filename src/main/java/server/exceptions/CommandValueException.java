@@ -1,7 +1,7 @@
 package server.exceptions;
 
 public class CommandValueException extends Exception{
-    public CommandValueException(String e){
-        super(e);
+    public CommandValueException(String message){
+        super(message);
     }
 }

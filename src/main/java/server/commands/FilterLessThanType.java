@@ -21,11 +21,11 @@ public class FilterLessThanType implements Command {
     }
 
     @Override
-    public String execute(String s) throws CommandValueException, CommandCollectionZeroException {
+    public String execute(String value) throws CommandValueException, CommandCollectionZeroException {
         TicketType type;
         StringBuilder str = new StringBuilder();
         try {
-            type = TicketType.valueOf(s);
+            type = TicketType.valueOf(value);
         } catch (IllegalArgumentException e) {
             throw new CommandValueException("type");
         }

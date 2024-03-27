@@ -19,13 +19,13 @@ public class Info implements Command {
     }
 
     @Override
-    public String execute(String s) throws CommandCollectionZeroException {
+    public String execute(String value) throws CommandCollectionZeroException {
         if (server.getReaderWriter().getCollectionInfo().isEmpty()) {
             throw new CommandCollectionZeroException("Collection information will be updating in next save");
         }
         StringBuilder str = new StringBuilder();
         for (String i : server.getReaderWriter().getCollectionInfo()) {
-            str.append(i).append("\n");
+            str.append("\n").append(i);
         }
         return str.toString();
     }

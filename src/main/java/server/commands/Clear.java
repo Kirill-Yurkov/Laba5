@@ -21,7 +21,7 @@ public class Clear implements Command {
     }
 
     @Override
-    public String execute(String s) {
+    public String execute(String value) {
         List<Ticket> tickets = new ArrayList<>();
         server.getListManager().setTicketList(tickets);
         return "successfully";

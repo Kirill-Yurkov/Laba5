@@ -19,7 +19,7 @@ public class Exit implements Command {
     }
 
     @Override
-    public String execute(String s) throws StopServerException {
+    public String execute(String value){
         server.stop();
         return "Successfully";
     }

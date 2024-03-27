@@ -21,9 +21,9 @@ public class Validator {
         return true;
     }
 
-    public static boolean isValidInteger(String str, int limit) {
+    public static boolean isValidInteger(String strInteger, int limit) {
         try {
-            if (str.isEmpty() || str.isBlank() || Integer.parseInt(str) <= limit) {
+            if (strInteger.isEmpty() || strInteger.isBlank() || Integer.parseInt(strInteger) <= limit) {
                 return false;
             }
             return true;
@@ -32,12 +32,12 @@ public class Validator {
         }
     }
 
-    public static Boolean isValidIntegerWithNull(String str, int limit) {
+    public static Boolean isValidIntegerWithNull(String strInteger, int limit) {
         try {
-            if (str.equals("null")) {
+            if (strInteger.equals("null")) {
                 return null;
             }
-            if (str.isEmpty() || str.isBlank() || Integer.parseInt(str) <= limit) {
+            if (strInteger.isEmpty() || strInteger.isBlank() || Integer.parseInt(strInteger) <= limit) {
                 return false;
             }
             return true;
@@ -46,9 +46,9 @@ public class Validator {
         }
     }
 
-    public static boolean isValidLonger(String str, long limit) {
+    public static boolean isValidLonger(String strLonger, long limit) {
         try {
-            if (str.isEmpty() || str.isBlank() || Long.parseLong(str) <= limit) {
+            if (strLonger.isEmpty() || strLonger.isBlank() || Long.parseLong(strLonger) <= limit) {
                 return false;
             }
             return true;
@@ -57,27 +57,27 @@ public class Validator {
         }
     }
 
-    public static Boolean isValidLongerWithNull(String str) {
-        if (str.equals("null")) {
+    public static Boolean isValidLongerWithNull(String strLonger) {
+        if (strLonger.equals("null")) {
             return null;
         }
-        if (str.isEmpty() || str.isBlank()) {
+        if (strLonger.isEmpty() || strLonger.isBlank()) {
             return false;
         }
         try {
-            Long.parseLong(str);
+            Long.parseLong(strLonger);
             return true;
         } catch (NumberFormatException ignored) {
             return false;
         }
     }
 
-    public static boolean isValidTicketType(String str){
-        if (str.isEmpty() || str.isBlank()) {
+    public static boolean isValidTicketType(String strTicketType){
+        if (strTicketType.isEmpty() || strTicketType.isBlank()) {
             return false;
         }
         try {
-            TicketType.valueOf(str);
+            TicketType.valueOf(strTicketType);
             return true;
         } catch (IllegalArgumentException e) {
             return false;

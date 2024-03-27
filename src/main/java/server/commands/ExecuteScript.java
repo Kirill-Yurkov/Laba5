@@ -2,7 +2,7 @@ package server.commands;
 
 import server.Server;
 import server.commands.interfaces.Command;
-import server.exceptions.ScriptException;
+import server.exceptions.CommandValueException;
 import server.exceptions.StopServerException;
 import server.utilities.CommandValues;
 
@@ -11,9 +11,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class ExecuteScript implements Command {
-    public static boolean recursing = false;
-    private boolean afterRecursive;
-    private boolean hasRecursion;
     private Server server;
     private static Set<String> fileSet = new HashSet<>();
 
@@ -28,34 +25,34 @@ public class ExecuteScript implements Command {
     }
 
     @Override
-    public String execute(String s) throws StopServerException {
+    public String execute(String filePath) throws CommandValueException {
 
-        if (checkFilePermission(s)) {
-            if(!fileSet.contains(s)){
-                fileSet.add(s);
-                server.start(new File(s));
+        if (checkFilePermission(filePath)) {
+            if(!fileSet.contains(filePath)){
+                fileSet.add(filePath);
+                server.start(new File(filePath));
                 server.getInputOutput().setReader(new BufferedReader(new InputStreamReader(System.in)));
-                fileSet.remove(s);
+                fileSet.remove(filePath);
                 return null;
             } else {
-                throw new StopServerException("file has recursion");
+                throw new CommandValueException("file has recursion");
             }
 
         }else {
-            throw new StopServerException("error");
+            throw new CommandValueException("error");
         }
 
     }
-    private boolean checkFilePermission(String s) throws StopServerException {
+    private boolean checkFilePermission(String filePath) throws  CommandValueException {
         try {
-            File file = new File(s);
+            File file = new File(filePath);
             FileReader f = new FileReader(file.getAbsoluteFile());
             BufferedReader br = new BufferedReader(f);
 
         } catch (FileNotFoundException e) {
-            throw new StopServerException("file not found");
+            throw new CommandValueException("file not found");
         } catch (SecurityException e) {
-            throw new StopServerException("file permission denied");
+            throw new CommandValueException("file permission denied");
         }
         return true;
     }

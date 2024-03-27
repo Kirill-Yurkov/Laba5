@@ -21,7 +21,7 @@ public class Shuffle implements Command {
     }
 
     @Override
-    public String execute(String s) throws CommandCollectionZeroException {
+    public String execute(String value) throws CommandCollectionZeroException {
         if(server.getListManager().getTicketList().isEmpty()){
             throw new CommandCollectionZeroException("collection is zero");
         }

@@ -17,10 +17,10 @@ public class Help implements Command {
         this.server = server;
     }
     @Override
-    public String execute(String s){
+    public String execute(String value){
         StringBuilder str = new StringBuilder();
         for(Command command: server.getCommandInvoker().getCommands()){
-            str.append(command.getName()).append(" : ").append(command.description()).append("\n");
+            str.append("\n").append(command.getName()).append(" : ").append(command.description());
         }
         return str.toString();
     }

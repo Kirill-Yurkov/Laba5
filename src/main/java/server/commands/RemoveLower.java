@@ -3,6 +3,7 @@ package server.commands;
 import server.Server;
 import server.commands.interfaces.Command;
 import server.exceptions.CommandCollectionZeroException;
+import server.exceptions.StopCreateTicketException;
 import server.exceptions.StopServerException;
 import server.patternclass.Ticket;
 import server.utilities.CommandValues;
@@ -23,21 +24,26 @@ public class RemoveLower implements Command {
     }
 
     @Override
-    public String execute(String s) throws StopServerException, CommandCollectionZeroException {
-        Ticket newTicket = server.getTicketCreator().createTicketGroup();
-        List<Ticket> removeList = new ArrayList<>();
-        if(server.getListManager().getTicketList().isEmpty()){
-            throw new CommandCollectionZeroException("collection is zero");
-        }
-        for(Ticket ticket: server.getListManager().getTicketList()){
-            if(ticket.getPrice()< newTicket.getPrice()){
-                removeList.add(ticket);
+    public String execute(String value) throws CommandCollectionZeroException {
+        try {
+           Ticket newTicket = server.getTicketCreator().createTicketGroup();
+            List<Ticket> removeList = new ArrayList<>();
+            if(server.getListManager().getTicketList().isEmpty()){
+                throw new CommandCollectionZeroException("collection is zero");
             }
+            for(Ticket ticket: server.getListManager().getTicketList()){
+                if(ticket.getPrice()< newTicket.getPrice()){
+                    removeList.add(ticket);
+                }
+            }
+            for(Ticket ticket: removeList){
+                server.getListManager().getTicketList().remove(ticket);
+            }
+            return "successfully";
+        } catch (StopCreateTicketException e) {
+            return null;
         }
-        for(Ticket ticket: removeList){
-            server.getListManager().getTicketList().remove(ticket);
-        }
-        return "successfully";
+
     }
 
     @Override

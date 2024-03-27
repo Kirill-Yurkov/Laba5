@@ -2,6 +2,7 @@ package server.commands;
 
 import server.Server;
 import server.commands.interfaces.Command;
+import server.exceptions.CommandCollectionZeroException;
 import server.patternclass.Ticket;
 import server.utilities.CommandValues;
 
@@ -19,10 +20,13 @@ public class Show implements Command {
     }
 
     @Override
-    public String execute(String s) {
+    public String execute(String value) throws CommandCollectionZeroException {
         StringBuilder str = new StringBuilder();
+        if (server.getListManager().getTicketList().isEmpty()) {
+            throw new CommandCollectionZeroException("collection is empty");
+        }
         for (Ticket ticket : server.getListManager().getTicketList()) {
-            str.append(ticket.toString()).append("\n");
+            str.append("\n").append(ticket.toString());
         }
         return String.valueOf(str);
     }

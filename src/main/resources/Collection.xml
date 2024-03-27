@@ -2,7 +2,7 @@
 <TicketsBook>
     <Collection>
         <CollectionType>CSV</CollectionType>
-        <CollectionCreationDate>Mon Mar 18 17:01:02 MSK 2024</CollectionCreationDate>
+        <CollectionCreationDate>Tue Mar 26 11:25:36 MSK 2024</CollectionCreationDate>
         <CollectionCount>10</CollectionCount>
         <CollectionXmlVersion>1.0</CollectionXmlVersion>
         <CollectionXmlEncoding>UTF-8</CollectionXmlEncoding>
@@ -34,20 +34,6 @@
         <EventMinAge>10</EventMinAge>
         <EventTicketsCount>10</EventTicketsCount>
         <EventDescription>FASFASF</EventDescription>
-    </Ticket>
-    <Ticket>
-        <TicketId>1</TicketId>
-        <TicketName>Kirill</TicketName>
-        <CoordinateX>55</CoordinateX>
-        <CoordinateY>55</CoordinateY>
-        <TicketCreationDate>Mon Mar 18 16:17:29 MSK 2024</TicketCreationDate>
-        <TicketPrice>10</TicketPrice>
-        <TicketType>VIP</TicketType>
-        <EventId>1</EventId>
-        <EventName>JOSAH</EventName>
-        <EventMinAge>10</EventMinAge>
-        <EventTicketsCount>10</EventTicketsCount>
-        <EventDescription>OLOLO</EventDescription>
     </Ticket>
     <Ticket>
         <TicketId>4</TicketId>
@@ -96,20 +82,6 @@
         <EventDescription>sagsag</EventDescription>
     </Ticket>
     <Ticket>
-        <TicketId>2</TicketId>
-        <TicketName>OFSAOFA</TicketName>
-        <CoordinateX>124521</CoordinateX>
-        <CoordinateY>512</CoordinateY>
-        <TicketCreationDate>Mon Mar 18 16:53:29 MSK 2024</TicketCreationDate>
-        <TicketPrice>512</TicketPrice>
-        <TicketType>VIP</TicketType>
-        <EventId>7</EventId>
-        <EventName>FAISF</EventName>
-        <EventMinAge>41</EventMinAge>
-        <EventTicketsCount>534</EventTicketsCount>
-        <EventDescription>ifrasf</EventDescription>
-    </Ticket>
-    <Ticket>
         <TicketId>8</TicketId>
         <TicketName>EIGHT</TicketName>
         <CoordinateX>142</CoordinateX>
@@ -124,17 +96,40 @@
         <EventDescription>fasfplaf</EventDescription>
     </Ticket>
     <Ticket>
+        <TicketId>1</TicketId>
+        <TicketName>Kirill</TicketName>
+        <CoordinateX>55</CoordinateX>
+        <CoordinateY>55</CoordinateY>
+        <TicketCreationDate>Mon Mar 18 16:17:29 MSK 2024</TicketCreationDate>
+        <TicketPrice>10</TicketPrice>
+        <TicketType>VIP</TicketType>
+        <EventId>1</EventId>
+        <EventName>JOSAH</EventName>
+        <EventMinAge>10</EventMinAge>
+        <EventTicketsCount>10</EventTicketsCount>
+        <EventDescription>OLOLO</EventDescription>
+    </Ticket>
+    <Ticket>
+        <TicketId>2</TicketId>
+        <TicketName>OFSAOFA</TicketName>
+        <CoordinateX>124521</CoordinateX>
+        <CoordinateY>512</CoordinateY>
+        <TicketCreationDate>Mon Mar 18 16:53:29 MSK 2024</TicketCreationDate>
+        <TicketPrice>512</TicketPrice>
+        <TicketType>VIP</TicketType>
+        <EventId>7</EventId>
+        <EventName>FAISF</EventName>
+        <EventMinAge>41</EventMinAge>
+        <EventTicketsCount>534</EventTicketsCount>
+        <EventDescription>ifrasf</EventDescription>
+    </Ticket>
+    <Ticket>
         <TicketId>10</TicketId>
-        <TicketName>NAstya</TicketName>
-        <CoordinateX>4213</CoordinateX>
-        <CoordinateY>12</CoordinateY>
-        <TicketCreationDate>Mon Mar 18 17:00:36 MSK 2024</TicketCreationDate>
-        <TicketPrice>52</TicketPrice>
-        <TicketType>CHEAP</TicketType>
-        <EventId>8</EventId>
-        <EventName>PAF</EventName>
-        <EventMinAge>321</EventMinAge>
-        <EventTicketsCount>54</EventTicketsCount>
-        <EventDescription>fasgv</EventDescription>
+        <TicketName>VADIM</TicketName>
+        <CoordinateX>50</CoordinateX>
+        <CoordinateY>50</CoordinateY>
+        <TicketCreationDate>Tue Mar 26 11:25:06 MSK 2024</TicketCreationDate>
+        <TicketPrice>213</TicketPrice>
+        <TicketType>VIP</TicketType>
     </Ticket>
 </TicketsBook>

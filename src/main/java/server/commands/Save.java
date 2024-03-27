@@ -17,7 +17,7 @@ public class Save implements Command {
         this.server = server;
     }
     @Override
-    public String execute(String s) {
+    public String execute(String value) {
         server.getReaderWriter().writeXML(server.getFileManager().getFilePath(), server.getListManager().getTicketList());
         return "successfully";
     }

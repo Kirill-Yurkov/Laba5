@@ -20,7 +20,7 @@ public class AverageOfPrice implements Command {
     }
 
     @Override
-    public String execute(String s) throws CommandCollectionZeroException {
+    public String execute(String value) throws CommandCollectionZeroException {
         int price = 0;
         for (Ticket ticket : server.getListManager().getTicketList()) {
             if (ticket.getPrice() != null) {

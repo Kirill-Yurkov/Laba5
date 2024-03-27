@@ -10,6 +10,7 @@ import org.xml.sax.SAXException;
 import server.Server;
 import server.exceptions.CommandValueException;
 import server.exceptions.FileException;
+import server.exceptions.StopServerException;
 import server.patternclass.Coordinates;
 import server.patternclass.Event;
 import server.patternclass.Ticket;
@@ -41,25 +42,83 @@ public class FileManager {
     @Getter
     private String filePath;
     private Document document;
-
-    public void setFilePath(String filePath) {
-        try {
-            document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new File(filePath));
-        } catch (SAXException | IOException | ParserConfigurationException e) {
-            throw new RuntimeException(e);
-        }
-        this.filePath = filePath;
-    }
-
+    private boolean isFileInitialized =false;
     public FileManager(Server server) {
         this.server = server;
     }
+    public void setFilePath(String filePath) throws StopServerException {
+        if (new File(filePath).canRead() && new File(filePath).canWrite() && ".xml".equals(FileManager.ReaderWriter.getFileExtension(filePath))) {
+            try {
+                document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new File(filePath));
+                this.filePath = filePath;
+                server.getReaderWriter().readXML();
+                server.getListManager().readTicketList();
+            } catch (FileException e) {
+                throw new StopServerException("File fail: " + e.getMessage());
+            } catch (SAXException | IOException | ParserConfigurationException e) {
+                throw new RuntimeException(e);
+            }
 
-    @Getter
-    @Setter
+        } else {
+            throw new StopServerException("Wrong file");
+        }
+    }
+    public boolean initializeFile() {
+        if (isFileInitialized) {
+            return true;
+        } else {
+            server.getInputOutput().outPut("Введите путь до файла коллекции (xml) :\n~ ");
+            try {
+                String text = server.getInputOutput().inPut();
+                if (text == null) {
+                    server.getInputOutput().outPut("\nПолучен сигнал завершения работы.");
+                    server.stop();
+                    return false;
+                } else {
+                    setFilePath(text);// src/main/resources/Collection.xml
+                    isFileInitialized = true;
+                    server.getInputOutput().outPut("\n");
+                    return true;
+                }
+
+            } catch (StopServerException e) {
+                server.getInputOutput().outPut(e.getMessage() + "\n");
+                isFileInitialized = false;
+                server.getInputOutput().outPut("\n");
+                return initializeFile();
+            }
+        }
+    }
+
+
+
     public class InputOutput {
+        @Getter
+        @Setter
         private BufferedReader reader;
+        @Getter
+        @Setter
         private BufferedOutputStream writer;
+        private String lastOut = "";
+        public String inPut() {
+            try {
+                String str = reader.readLine();
+                return str;
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        public void outPut(String text) {
+            try {
+                if(!lastOut.equals("\n") || !text.equals("\n")){
+                    writer.write(text.getBytes());
+                    writer.flush();
+                    lastOut = text;
+                }
+            } catch (IOException ignored) {
+            }
+        }
     }
 
     @Getter
@@ -69,6 +128,11 @@ public class FileManager {
 
         @Setter
         private List<Ticket> collectionTicket = new ArrayList<>();
+
+        public static String getFileExtension(String mystr) {
+            int index = mystr.indexOf('.');
+            return index == -1? null : mystr.substring(index);
+        }
 
         public void readXML() throws FileException {
             try {

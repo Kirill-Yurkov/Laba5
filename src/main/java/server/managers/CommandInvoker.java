@@ -3,13 +3,11 @@ package server.managers;
 
 import lombok.Getter;
 import server.Server;
+import server.commands.*;
 import server.commands.interfaces.Command;
 import server.exceptions.CommandCollectionZeroException;
 import server.exceptions.CommandValueException;
-import server.exceptions.ScriptException;
 import server.exceptions.StopServerException;
-import server.utilities.ReflectionImplements;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,17 +19,26 @@ public class CommandInvoker {
 
     public CommandInvoker(Server server) {
         this.server = server;
-        List<Class<?>> implementations = ReflectionImplements.getImplementations(Command.class);
-        for (Class<?> implementation : implementations) {
-            try {
-                registerCommand((Command) implementation.newInstance());
-            } catch (InstantiationException | IllegalAccessException e) {
-                throw new RuntimeException(e);
-            }
-        }
+        registerCommand(
+                new Help(),
+                new Info(),
+                new Show(),
+                new Add(),
+                new Update(),
+                new RemoveById(),
+                new Clear(),
+                new Save(),
+                new ExecuteScript(),
+                new Exit(),
+                new AddIfMin(),
+                new Shuffle(),
+                new RemoveLower(),
+                new AverageOfPrice(),
+                new CountGreaterThanEvent(),
+                new FilterLessThanType());
     }
 
-    public String invoke(String commandName) throws CommandValueException, NullPointerException, StopServerException, CommandCollectionZeroException{
+    public String invoke(String commandName) throws CommandValueException, NullPointerException, CommandCollectionZeroException {
         String[] s = commandName.strip().split(" ");
         switch (commands.get(s[0]).getValue()) {
             case NOTHING, ELEMENT -> {
@@ -44,7 +51,7 @@ public class CommandInvoker {
                 if (s.length == 2) {
                     return commands.get(s[0]).execute(s[1]);
                 }
-                throw new CommandValueException("wrong valuse");
+                throw new CommandValueException("wrong values");
             }
             default -> throw new NullPointerException("");
         }

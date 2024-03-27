@@ -20,10 +20,10 @@ public class RemoveById implements Command {
     }
 
     @Override
-    public String execute(String s) throws CommandValueException, CommandCollectionZeroException {
+    public String execute(String value) throws CommandValueException, CommandCollectionZeroException {
         long id;
         try {
-            id = Long.parseLong(s);
+            id = Long.parseLong(value);
         } catch (NumberFormatException ignored){
             throw new CommandValueException("long");
         }

@@ -4,6 +4,7 @@ import server.Server;
 import server.commands.interfaces.Command;
 import server.exceptions.CommandCollectionZeroException;
 import server.exceptions.CommandValueException;
+import server.exceptions.StopCreateTicketException;
 import server.patternclass.Ticket;
 import server.utilities.CommandValues;
 
@@ -20,10 +21,10 @@ public class Update implements Command {
     }
 
     @Override
-    public String execute(String s) throws CommandValueException, CommandCollectionZeroException {
+    public String execute(String value) throws CommandValueException, CommandCollectionZeroException {
         long id;
         try {
-            id = Long.parseLong(s);
+            id = Long.parseLong(value);
         } catch (NumberFormatException ignored){
             throw new CommandValueException("long");
         }
@@ -33,13 +34,17 @@ public class Update implements Command {
         for(Ticket ticket: server.getListManager().getTicketList()){
             if (ticket.getId() == id){
                 server.getListManager().remove(ticket);
-                Ticket newTicket = server.getTicketCreator().createTicketGroup();
-                newTicket.setId(id);
-                if(newTicket.getEvent()!=null){
-                    newTicket.getEvent().setId(server.getIdCounter().getIdForEvent(newTicket.getEvent()));
+                try {
+                    Ticket newTicket = server.getTicketCreator().createTicketGroup();
+                    newTicket.setId(id);
+                    if(newTicket.getEvent()!=null){
+                        newTicket.getEvent().setId(server.getIdCounter().getIdForEvent(newTicket.getEvent()));
+                    }
+                    server.getListManager().add(newTicket);
+                    return "successfully";
+                } catch (StopCreateTicketException e) {
+                    return null;
                 }
-                server.getListManager().add(newTicket);
-                return "successfully";
             }
         }
         throw new CommandValueException("id not find");

@@ -4,6 +4,7 @@ import server.Server;
 import server.commands.interfaces.Command;
 import server.exceptions.CommandCollectionZeroException;
 import server.exceptions.CommandValueException;
+import server.exceptions.StopCreateTicketException;
 import server.exceptions.StopServerException;
 import server.patternclass.Ticket;
 import server.utilities.CommandValues;
@@ -21,23 +22,27 @@ public class AddIfMin implements Command {
     }
 
     @Override
-    public String execute(String s) throws StopServerException, CommandValueException, CommandCollectionZeroException {
+    public String execute(String value) throws  CommandValueException, CommandCollectionZeroException {
         if(server.getListManager().getTicketList().isEmpty()){
             throw new CommandCollectionZeroException("collection is zero");
         }
-        Ticket ticket = server.getTicketCreator().createTicketGroup();
-        int mini = Integer.MAX_VALUE;
-        for (Ticket localTicket : server.getListManager().getTicketList()) {
-            if (localTicket.getPrice() != null && localTicket.getPrice()<mini) {
-                mini = localTicket.getPrice();
+        try {
+            Ticket ticket = server.getTicketCreator().createTicketGroup();
+            int mini = Integer.MAX_VALUE;
+            for (Ticket localTicket : server.getListManager().getTicketList()) {
+                if (localTicket.getPrice() != null && localTicket.getPrice()<mini) {
+                    mini = localTicket.getPrice();
+                }
             }
-        }
-        if(ticket.getPrice()<mini){
-            ticket.setId(server.getIdCounter().getIdForTicket(ticket));
-            if(ticket.getEvent()!=null){
-                ticket.getEvent().setId(server.getIdCounter().getIdForEvent(ticket.getEvent()));
+            if(ticket.getPrice()<mini){
+                ticket.setId(server.getIdCounter().getIdForTicket(ticket));
+                if(ticket.getEvent()!=null){
+                    ticket.getEvent().setId(server.getIdCounter().getIdForEvent(ticket.getEvent()));
+                }
+                return "successfully";
             }
-            return "successfully";
+        } catch (StopCreateTicketException e) {
+            return null;
         }
         throw new CommandValueException("price more than minimal");
     }

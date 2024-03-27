@@ -21,11 +21,11 @@ public class CountGreaterThanEvent implements Command {
     }
 
     @Override
-    public String execute(String s) throws CommandValueException, CommandCollectionZeroException {
+    public String execute(String value) throws CommandValueException, CommandCollectionZeroException {
         int count = 0;
         int ticketsCount;
         try {
-            ticketsCount = Integer.parseInt(s);
+            ticketsCount = Integer.parseInt(value);
         } catch (NumberFormatException ignored) {
             throw new CommandValueException("int");
         }
@@ -37,7 +37,7 @@ public class CountGreaterThanEvent implements Command {
                 count += 1;
             }
         }
-        return "Count events greater than " + s + " by ticket count: " + count + "\n";
+        return "Count events greater than " + value + " by ticket count: " + count + "\n";
     }
 
     @Override
